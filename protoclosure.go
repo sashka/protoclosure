@@ -8,7 +8,6 @@ package protoclosure
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"code.google.com/p/goprotobuf/proto"
 )
@@ -16,13 +15,21 @@ import (
 // MarshalPBLite takes the protocol buffer and encodes it into the PBLite JSON
 // format, returning the data.
 func MarshalPBLite(pb proto.Message) ([]byte, error) {
-	return nil, fmt.Errorf("Umimplemented")
+	pbl, err := toPBLite(pb, false)
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(pbl)
 }
 
 // MarshalPBLiteZeroIndex takes the protocol buffer and encodes it into the
 // zero-indexed PBLite JSON format, returning the data.
 func MarshalPBLiteZeroIndex(pb proto.Message) ([]byte, error) {
-	return nil, fmt.Errorf("Umimplemented")
+	pbl, err := toPBLite(pb, true)
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(pbl)
 }
 
 // MarshalObjectKeyName takes the protocol buffer and encodes it into the
@@ -48,13 +55,23 @@ func MarshalObjectKeyTag(pb proto.Message) ([]byte, error) {
 // UnmarshalPBLite parses the PBLite JSON format protocol buffer representation
 // in data and places the decoded result in pb.
 func UnmarshalPBLite(data []byte, pb proto.Message) error {
-	return fmt.Errorf("Umimplemented")
+	pbl := &pbLite{}
+	err := json.Unmarshal(data, pbl)
+	if err != nil {
+		return err
+	}
+	return toPB(pbl, pb, false)
 }
 
 // UnmarshalPBLiteZeroIndex parses the zero-indexed PBLite JSON format protocol
 // buffer representation in data and places the decoded result in pb.
 func UnmarshalPBLiteZeroIndex(data []byte, pb proto.Message) error {
-	return fmt.Errorf("Umimplemented")
+	pbl := &pbLite{}
+	err := json.Unmarshal(data, pbl)
+	if err != nil {
+		return err
+	}
+	return toPB(pbl, pb, true)
 }
 
 // UnmarshalObjectKeyName parses the field name based Object JSON format
