@@ -71,25 +71,24 @@ func toPBLite(pb proto.Message, zeroIndex bool) (*pbLite, error) {
 					return nil, err
 				}
 				pbl = append(pbl, subMessage)
-				continue
-			}
-
-			fve := fv.Elem()
-			switch fve.Kind() {
-			case reflect.Int64:
-				val := fve.Int()
-				pbl = append(pbl, strconv.FormatInt(val, 10))
-			case reflect.Uint64:
-				val := fve.Uint()
-				pbl = append(pbl, strconv.FormatUint(val, 10))
-			case reflect.Bool:
-				if fve.Bool() {
-					pbl = append(pbl, 1)
-				} else {
-					pbl = append(pbl, 0)
+			} else {
+				fve := fv.Elem()
+				switch fve.Kind() {
+				case reflect.Int64:
+					val := fve.Int()
+					pbl = append(pbl, strconv.FormatInt(val, 10))
+				case reflect.Uint64:
+					val := fve.Uint()
+					pbl = append(pbl, strconv.FormatUint(val, 10))
+				case reflect.Bool:
+					if fve.Bool() {
+						pbl = append(pbl, 1)
+					} else {
+						pbl = append(pbl, 0)
+					}
+				default:
+					pbl = append(pbl, fv.Interface())
 				}
-			default:
-				pbl = append(pbl, fv.Interface())
 			}
 		case reflect.Slice:
 			switch fv.Type() {

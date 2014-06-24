@@ -477,7 +477,7 @@ func TestUnmarshalPBLiteZeroIndex(t *testing.T) {
 }
 
 /*
-func TestPBLiteZeroIndexLargeIntDeserialization(t *testing.T) {
+func TestUnmarshalPBLiteZeroIndexLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalPBLiteZeroIndex([]byte(largeIntPBLiteZeroIndexGolden), pb)
 	if err != nil {
@@ -507,7 +507,7 @@ func TestPBLiteZeroIndexLargeIntDeserialization(t *testing.T) {
 }
 */
 
-func TestPBLiteZeroIndexPackageDeserialization(t *testing.T) {
+func TestUnmarshalPBLitePackageZeroIndex(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	err := UnmarshalPBLiteZeroIndex([]byte(pbLitePackageZeroIndexGolden), pb)
 	if err != nil {
@@ -519,7 +519,7 @@ func TestPBLiteZeroIndexPackageDeserialization(t *testing.T) {
 	validateMessage(t, pb.OtherAll)
 }
 
-func TestObjectKeyNameSerialization(t *testing.T) {
+func TestMarshalObjectKeyName(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	populateMessage(pb)
 
@@ -533,7 +533,7 @@ func TestObjectKeyNameSerialization(t *testing.T) {
 }
 
 /*
-func TestObjectKeyNameLargeIntSerialization(t *testing.T) {
+func TestMarshalObjectKeyNameLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	pb.OptionalUint64 = proto.Uint64(1000000000000000001)
 	pb.OptionalInt64Number = proto.Int64(1000000000000000001)
@@ -549,7 +549,7 @@ func TestObjectKeyNameLargeIntSerialization(t *testing.T) {
 }
 */
 
-func TestObjectKeyNamePackageSerialization(t *testing.T) {
+func TestMarshalObjectKeyNamePackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	pb.OptionalInt32 = proto.Int32(1)
 	testMessage := &test_pb.TestAllTypes{}
@@ -564,7 +564,7 @@ func TestObjectKeyNamePackageSerialization(t *testing.T) {
 	}
 }
 
-func TestObjectKeyNameDeserialization(t *testing.T) {
+func TestUnmarshalObjectKeyName(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyName([]byte(objectKeyNameGolden), pb)
 	if err != nil {
@@ -574,7 +574,7 @@ func TestObjectKeyNameDeserialization(t *testing.T) {
 }
 
 /*
-func TestObjectKeyNameLargeIntDeserialization(t *testing.T) {
+func TestUnmarshalObjectKeyNameLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyName([]byte(largeIntObjectKeyNameGolden), pb)
 	if err != nil {
@@ -604,7 +604,7 @@ func TestObjectKeyNameLargeIntDeserialization(t *testing.T) {
 }
 */
 
-func TestObjectKeyNamePackageDeserialization(t *testing.T) {
+func TestUnmarshalObjectKeyNamePackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	err := UnmarshalObjectKeyName([]byte(objectKeyNamePackageGolden), pb)
 	if err != nil {
@@ -616,7 +616,7 @@ func TestObjectKeyNamePackageDeserialization(t *testing.T) {
 	validateMessage(t, pb.OtherAll)
 }
 
-func TestObjectKeyTagSerialization(t *testing.T) {
+func TestMarshalObjectKeyTag(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	populateMessage(pb)
 
@@ -630,7 +630,7 @@ func TestObjectKeyTagSerialization(t *testing.T) {
 }
 
 /*
-func TestObjectKeyTagLargeIntSerialization(t *testing.T) {
+func TestMarshalObjectKeyTagLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	pb.OptionalUint64 = proto.Uint64(1000000000000000001)
 	pb.OptionalInt64Number = proto.Int64(1000000000000000001)
@@ -646,7 +646,7 @@ func TestObjectKeyTagLargeIntSerialization(t *testing.T) {
 }
 */
 
-func TestObjectKeyTagPackageSerialization(t *testing.T) {
+func TestMarshalObjectKeyTagPackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	pb.OptionalInt32 = proto.Int32(1)
 	testMessage := &test_pb.TestAllTypes{}
@@ -661,7 +661,7 @@ func TestObjectKeyTagPackageSerialization(t *testing.T) {
 	}
 }
 
-func TestObjectKeyTagDeserialization(t *testing.T) {
+func TestUnmarshalObjectKeyTag(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyTag([]byte(objectKeyTagGolden), pb)
 	if err != nil {
@@ -671,7 +671,7 @@ func TestObjectKeyTagDeserialization(t *testing.T) {
 }
 
 /*
-func TestObjectKeyTagLargeIntDeserialization(t *testing.T) {
+func TestUnmarshalObjectKeyTagLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyTag([]byte(largeIntObjectKeyTagGolden), pb)
 	if err != nil {
@@ -701,7 +701,7 @@ func TestObjectKeyTagLargeIntDeserialization(t *testing.T) {
 }
 */
 
-func TestObjectKeyTagPackageDeserialization(t *testing.T) {
+func TestUnmarshalObjectKeyTagPackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	err := UnmarshalObjectKeyTag([]byte(objectKeyTagPackageGolden), pb)
 	if err != nil {
@@ -717,7 +717,7 @@ func TestObjectKeyTagPackageDeserialization(t *testing.T) {
 	validateMessage(t, pb.OtherAll)
 }
 
-func TestObjectKeyTagEscapeSerialization(t *testing.T) {
+func TestMarshalObjectKeyTagEscape(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	pb.OptionalString = proto.String(specialCharString)
 	pb.OptionalBytes = []byte(specialCharString)
@@ -731,7 +731,7 @@ func TestObjectKeyTagEscapeSerialization(t *testing.T) {
 	}
 }
 
-func TestObjectKeyTagEscapeDeserialization(t *testing.T) {
+func TestUnmarshalObjectKeyTagEscape(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyTag([]byte(objectKeyTagEscapesGolden), pb)
 	if err != nil {
