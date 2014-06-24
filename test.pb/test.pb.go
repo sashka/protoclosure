@@ -76,9 +76,8 @@ type TestAllTypes struct {
 	Optionalgroup         *TestAllTypes_OptionalGroup `protobuf:"group,16,opt,name=OptionalGroup" json:"optionalgroup,omitempty"`
 	OptionalNestedMessage *TestAllTypes_NestedMessage `protobuf:"bytes,18,opt,name=optional_nested_message" json:"optional_nested_message,omitempty"`
 	OptionalNestedEnum    *TestAllTypes_NestedEnum    `protobuf:"varint,21,opt,name=optional_nested_enum,enum=TestAllTypes_NestedEnum" json:"optional_nested_enum,omitempty"`
-	// TODO(hochhaus): find work around for missing jstype support.
-	// optional int64 optional_int64_number =  50 [default = 1000000000000000001,
-	//   (jstype) = JS_NUMBER];
+	// TODO(hochhaus):  (jstype) = JS_NUMBER;
+	OptionalInt64Number *int64 `protobuf:"varint,50,opt,name=optional_int64_number,def=1000000000000000001" json:"optional_int64_number,omitempty"`
 	OptionalInt64String *int64 `protobuf:"varint,51,opt,name=optional_int64_string,def=1000000000000000001" json:"optional_int64_string,omitempty"`
 	// Repeated
 	RepeatedInt32         []int32                       `protobuf:"varint,31,rep,name=repeated_int32" json:"repeated_int32,omitempty"`
@@ -99,7 +98,8 @@ type TestAllTypes struct {
 	Repeatedgroup         []*TestAllTypes_RepeatedGroup `protobuf:"group,46,rep,name=RepeatedGroup" json:"repeatedgroup,omitempty"`
 	RepeatedNestedMessage []*TestAllTypes_NestedMessage `protobuf:"bytes,48,rep,name=repeated_nested_message" json:"repeated_nested_message,omitempty"`
 	RepeatedNestedEnum    []TestAllTypes_NestedEnum     `protobuf:"varint,49,rep,name=repeated_nested_enum,enum=TestAllTypes_NestedEnum" json:"repeated_nested_enum,omitempty"`
-	// repeated int64 repeated_int64_number =  52 [(jstype) = JS_NUMBER];
+	// TODO(hochhaus): [(jstype) = JS_NUMBER]
+	RepeatedInt64Number []int64 `protobuf:"varint,52,rep,name=repeated_int64_number" json:"repeated_int64_number,omitempty"`
 	RepeatedInt64String []int64 `protobuf:"varint,53,rep,name=repeated_int64_string" json:"repeated_int64_string,omitempty"`
 	XXX_unrecognized    []byte  `json:"-"`
 }
@@ -113,6 +113,7 @@ const Default_TestAllTypes_OptionalFloat float32 = 1.5
 
 var Default_TestAllTypes_OptionalBytes []byte = []byte("moo")
 
+const Default_TestAllTypes_OptionalInt64Number int64 = 1000000000000000001
 const Default_TestAllTypes_OptionalInt64String int64 = 1000000000000000001
 
 func (m *TestAllTypes) GetOptionalInt32() int32 {
@@ -239,6 +240,13 @@ func (m *TestAllTypes) GetOptionalNestedEnum() TestAllTypes_NestedEnum {
 		return *m.OptionalNestedEnum
 	}
 	return TestAllTypes_FOO
+}
+
+func (m *TestAllTypes) GetOptionalInt64Number() int64 {
+	if m != nil && m.OptionalInt64Number != nil {
+		return *m.OptionalInt64Number
+	}
+	return Default_TestAllTypes_OptionalInt64Number
 }
 
 func (m *TestAllTypes) GetOptionalInt64String() int64 {
@@ -370,6 +378,13 @@ func (m *TestAllTypes) GetRepeatedNestedMessage() []*TestAllTypes_NestedMessage 
 func (m *TestAllTypes) GetRepeatedNestedEnum() []TestAllTypes_NestedEnum {
 	if m != nil {
 		return m.RepeatedNestedEnum
+	}
+	return nil
+}
+
+func (m *TestAllTypes) GetRepeatedInt64Number() []int64 {
+	if m != nil {
+		return m.RepeatedInt64Number
 	}
 	return nil
 }

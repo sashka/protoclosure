@@ -47,9 +47,8 @@ message TestAllTypes {
   optional NestedMessage optional_nested_message  = 18;
   optional NestedEnum    optional_nested_enum     = 21;
 
-  // TODO(hochhaus): find work around for missing jstype support.
-  // optional int64 optional_int64_number =  50 [default = 1000000000000000001,
-  //   (jstype) = JS_NUMBER];
+  // TODO(hochhaus):  (jstype) = JS_NUMBER;
+  optional int64 optional_int64_number =  50 [default = 1000000000000000001];
   optional int64 optional_int64_string =  51 [default = 1000000000000000001];
 
   // Repeated
@@ -76,6 +75,7 @@ message TestAllTypes {
   repeated NestedMessage repeated_nested_message  = 48;
   repeated NestedEnum    repeated_nested_enum     = 49;
 
-  // repeated int64 repeated_int64_number =  52 [(jstype) = JS_NUMBER];
+  // TODO(hochhaus): [(jstype) = JS_NUMBER]
+  repeated int64 repeated_int64_number =  52;
   repeated int64 repeated_int64_string =  53;
 }
