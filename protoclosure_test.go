@@ -114,171 +114,206 @@ func populateMessage(pb *test_pb.TestAllTypes) {
 }
 
 func validateMessage(t *testing.T, pb *test_pb.TestAllTypes) {
-	if pb.OptionalInt32 != nil {
+	if pb.OptionalInt32 == nil {
 		t.Errorf("Field expected, OptionalInt32")
+		t.FailNow()
 	}
-	if pb.OptionalInt64 != nil {
+	if pb.OptionalInt64 == nil {
 		t.Errorf("Field expected, OptionalInt64")
+		t.FailNow()
 	}
-	if pb.OptionalUint32 != nil {
+	if pb.OptionalUint32 == nil {
 		t.Errorf("Field expected, OptionalUint32")
+		t.FailNow()
 	}
-	if pb.OptionalUint64 != nil {
+	if pb.OptionalUint64 == nil {
 		t.Errorf("Field expected, OptionalUint64")
+		t.FailNow()
 	}
-	if pb.OptionalSint32 != nil {
+	if pb.OptionalSint32 == nil {
 		t.Errorf("Field expected, OptionalSint32")
+		t.FailNow()
 	}
-	if pb.OptionalFixed32 != nil {
+	if pb.OptionalFixed32 == nil {
 		t.Errorf("Field expected, OptionalFixed32")
+		t.FailNow()
 	}
-	if pb.OptionalFixed64 != nil {
+	if pb.OptionalFixed64 == nil {
 		t.Errorf("Field expected, OptionalFixed64")
+		t.FailNow()
 	}
-	if pb.OptionalSfixed32 != nil {
+	if pb.OptionalSfixed32 == nil {
 		t.Errorf("Field expected, OptionalSfixed32")
+		t.FailNow()
 	}
-	if pb.OptionalSfixed64 != nil {
+	if pb.OptionalSfixed64 == nil {
 		t.Errorf("Field expected, OptionalSfixed64")
+		t.FailNow()
 	}
-	if pb.OptionalFloat != nil {
+	if pb.OptionalFloat == nil {
 		t.Errorf("Field expected, OptionalFloat")
+		t.FailNow()
 	}
-	if pb.OptionalDouble != nil {
+	if pb.OptionalDouble == nil {
 		t.Errorf("Field expected, OptionalDouble")
+		t.FailNow()
 	}
-	if pb.OptionalBool != nil {
+	if pb.OptionalBool == nil {
 		t.Errorf("Field expected, OptionalBool")
+		t.FailNow()
 	}
-	if pb.OptionalString != nil {
+	if pb.OptionalString == nil {
 		t.Errorf("Field expected, OptionalString")
+		t.FailNow()
 	}
-	if pb.OptionalBytes != nil {
+	if pb.OptionalBytes == nil {
 		t.Errorf("Field expected, OptionalBytes")
+		t.FailNow()
 	}
-	if pb.Optionalgroup != nil {
+	if pb.Optionalgroup == nil {
 		t.Errorf("Field expected, OptionalOptionalgroup")
+		t.FailNow()
 	}
-	if pb.OptionalNestedMessage != nil {
+	if pb.OptionalNestedMessage == nil {
 		t.Errorf("Field expected, OptionalNestedMessage")
+		t.FailNow()
 	}
-	if pb.OptionalNestedEnum != nil {
+	if pb.OptionalNestedEnum == nil {
 		t.Errorf("Field expected, OptionalNestedEnum")
+		t.FailNow()
 	}
 
 	if len(pb.RepeatedInt32) != 2 {
 		t.Errorf("Found len %d, want 0 (RepeatedInt32)", len(pb.RepeatedInt32))
+		t.FailNow()
 	}
 	if len(pb.RepeatedInt64) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedInt64)", len(pb.RepeatedInt64))
+		t.FailNow()
 	}
 	if len(pb.RepeatedUint32) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeateUint32)", len(pb.RepeatedUint32))
+		t.FailNow()
 	}
 	if len(pb.RepeatedUint64) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedUint64)", len(pb.RepeatedUint64))
+		t.FailNow()
 	}
 	if len(pb.RepeatedSint32) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedSint32)", len(pb.RepeatedSint32))
+		t.FailNow()
 	}
 	if len(pb.RepeatedSint64) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedSint64)", len(pb.RepeatedSint64))
+		t.FailNow()
 	}
 	if len(pb.RepeatedFixed32) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedFixed32)", len(pb.RepeatedFixed32))
+		t.FailNow()
 	}
 	if len(pb.RepeatedFixed64) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedFixed64)", len(pb.RepeatedFixed64))
+		t.FailNow()
 	}
 	if len(pb.RepeatedSfixed32) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedSfixed32)",
 			len(pb.RepeatedSfixed32))
+		t.FailNow()
 	}
 	if len(pb.RepeatedSfixed64) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedSfixed64)",
 			len(pb.RepeatedSfixed64))
+		t.FailNow()
 	}
 	if len(pb.RepeatedFloat) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedFloat)", len(pb.RepeatedFloat))
+		t.FailNow()
 	}
 	if len(pb.RepeatedDouble) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedDouble)", len(pb.RepeatedDouble))
+		t.FailNow()
 	}
 	if len(pb.RepeatedBool) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedBool)", len(pb.RepeatedBool))
+		t.FailNow()
 	}
 	if len(pb.RepeatedString) != 2 {
 		t.Errorf("Found len %d, want 0 (RepeatedString)", len(pb.RepeatedString))
+		t.FailNow()
 	}
 	if len(pb.RepeatedBytes) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedBytes)", len(pb.RepeatedBytes))
+		t.FailNow()
 	}
 	if len(pb.Repeatedgroup) != 0 {
 		t.Errorf("Found len %d, want 0 (Repeatedgroup)", len(pb.Repeatedgroup))
+		t.FailNow()
 	}
 	if len(pb.RepeatedNestedMessage) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedNestedMessage)",
 			len(pb.RepeatedNestedMessage))
+		t.FailNow()
 	}
 	if len(pb.RepeatedNestedEnum) != 0 {
 		t.Errorf("Found len %d, want 0 (RepeatedNestedEnum)",
 			len(pb.RepeatedNestedEnum))
+		t.FailNow()
 	}
 
 	if *pb.OptionalInt32 != 101 {
-		t.Errorf("Found %d, want 101 (OptionalInt32)", pb.OptionalInt32)
+		t.Errorf("Found %d, want 101 (OptionalInt32)", *pb.OptionalInt32)
 	}
 	if *pb.OptionalInt64 != 102 {
-		t.Errorf("Found %d, want 102 (OptionalInt64)", pb.OptionalInt64)
+		t.Errorf("Found %d, want 102 (OptionalInt64)", *pb.OptionalInt64)
 	}
 	if *pb.OptionalUint32 != 103 {
-		t.Errorf("Found %d, want 103 (OptionalUint32)", pb.OptionalUint32)
+		t.Errorf("Found %d, want 103 (OptionalUint32)", *pb.OptionalUint32)
 	}
 	if *pb.OptionalUint64 != 104 {
-		t.Errorf("Found %d, want 104 (OptionalUint64)", pb.OptionalUint64)
+		t.Errorf("Found %d, want 104 (OptionalUint64)", *pb.OptionalUint64)
 	}
 	if *pb.OptionalSint32 != 105 {
-		t.Errorf("Found %d, want 105 (OptionalSint32)", pb.OptionalSint32)
+		t.Errorf("Found %d, want 105 (OptionalSint32)", *pb.OptionalSint32)
 	}
 	if *pb.OptionalSint64 != 106 {
-		t.Errorf("Found %d, want 106 (OptionalSint64)", pb.OptionalSint64)
+		t.Errorf("Found %d, want 106 (OptionalSint64)", *pb.OptionalSint64)
 	}
 	if *pb.OptionalFixed32 != 107 {
-		t.Errorf("Found %d, want 107 (OptionalFixed32)", pb.OptionalFixed32)
+		t.Errorf("Found %d, want 107 (OptionalFixed32)", *pb.OptionalFixed32)
 	}
 	if *pb.OptionalFixed64 != 108 {
-		t.Errorf("Found %d, want 108 (OptionalFixed64)", pb.OptionalFixed64)
+		t.Errorf("Found %d, want 108 (OptionalFixed64)", *pb.OptionalFixed64)
 	}
 	if *pb.OptionalSfixed32 != 109 {
-		t.Errorf("Found %d, want 109 (OptionalSfixed32)", pb.OptionalSfixed32)
+		t.Errorf("Found %d, want 109 (OptionalSfixed32)", *pb.OptionalSfixed32)
 	}
 	if *pb.OptionalSfixed64 != 110 {
-		t.Errorf("Found %d, want 110 (OptionalSfixed64)", pb.OptionalSfixed64)
+		t.Errorf("Found %d, want 110 (OptionalSfixed64)", *pb.OptionalSfixed64)
 	}
 	if *pb.OptionalFloat != 111.5 {
-		t.Errorf("Found %d, want 111.5 (OptionalFloat)", pb.OptionalFloat)
+		t.Errorf("Found %d, want 111.5 (OptionalFloat)", *pb.OptionalFloat)
 	}
 	if *pb.OptionalDouble != 112.5 {
-		t.Errorf("Found %d, want 112.5 (OptionalDouble)", pb.OptionalDouble)
+		t.Errorf("Found %d, want 112.5 (OptionalDouble)", *pb.OptionalDouble)
 	}
 	if !*pb.OptionalBool {
-		t.Errorf("Found %d, want true (OptionalBool)", pb.OptionalBool)
+		t.Errorf("Found %d, want true (OptionalBool)", *pb.OptionalBool)
 	}
 	if *pb.OptionalString != "test" {
-		t.Errorf("Found %d, want 'test' (OptionalString)", pb.OptionalString)
+		t.Errorf("Found %d, want 'test' (OptionalString)", *pb.OptionalString)
 	}
 	if !bytes.Equal(pb.OptionalBytes, []byte("abcd")) {
 		t.Errorf("Found %d, want 'abcd' (OptionalBytes)", pb.OptionalBytes)
 	}
 	if *pb.Optionalgroup.A != 111 {
-		t.Errorf("Found %d, want 111 (Optionalgroup.A)", pb.Optionalgroup.A)
+		t.Errorf("Found %d, want 111 (Optionalgroup.A)", *pb.Optionalgroup.A)
 	}
 	if *pb.OptionalNestedMessage.B != 112 {
 		t.Errorf("Found %d, want 112 (OptionalNestedMessage.B)",
-			pb.OptionalNestedMessage.B)
+			*pb.OptionalNestedMessage.B)
 	}
 	if *pb.OptionalNestedEnum != test_pb.TestAllTypes_FOO {
-		t.Errorf("Found %d, want FOO (OptionalNestedEnum)", pb.OptionalNestedEnum)
+		t.Errorf("Found %d, want FOO (OptionalNestedEnum)", *pb.OptionalNestedEnum)
 	}
 	if pb.RepeatedInt32[0] != 201 {
 		t.Errorf("Found %d, want 201 (RepeatedInt32[0])", pb.RepeatedInt32[0])
@@ -346,6 +381,18 @@ func TestUnmarshalPBLiteLargeInt(t *testing.T) {
 	err := UnmarshalPBLite([]byte(largeIntPBLiteGolden), pb)
 	if err != nil {
 		t.Fatalf("unalble to UnmarshalPBLite: %v", err)
+	}
+	if pb.OptionalUint64 == nil {
+		t.Errorf("Field expected, OptionalUint64")
+		t.FailNow()
+	}
+	if pb.OptionalInt64 == nil {
+		t.Errorf("Field expected, OptionalInt64")
+		t.FailNow()
+	}
+	if pb.OptionalInt64String == nil {
+		t.Errorf("Field expected, OptionalInt64String")
+		t.FailNow()
 	}
 	if *pb.OptionalUint64 != 1000000000000000001 {
 		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalUint64)
@@ -429,6 +476,18 @@ func TestPBLiteZeroIndexLargeIntDeserialization(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unalble to UnmarshalPBLiteZeroIndex: %v", err)
 	}
+	if pb.OptionalUint64 == nil {
+		t.Errorf("Field expected, OptionalUint64")
+		t.FailNow()
+	}
+	if pb.OptionalInt64 == nil {
+		t.Errorf("Field expected, OptionalInt64")
+		t.FailNow()
+	}
+	if pb.OptionalInt64String == nil {
+		t.Errorf("Field expected, OptionalInt64String")
+		t.FailNow()
+	}
 	if *pb.OptionalUint64 != 1000000000000000001 {
 		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalUint64)
 	}
@@ -509,6 +568,18 @@ func TestObjectKeyNameLargeIntDeserialization(t *testing.T) {
 	err := UnmarshalObjectKeyName([]byte(largeIntObjectKeyNameGolden), pb)
 	if err != nil {
 		t.Fatalf("unalble to UnmarshalObjectKeyName: %v", err)
+	}
+	if pb.OptionalUint64 == nil {
+		t.Errorf("Field expected, OptionalUint64")
+		t.FailNow()
+	}
+	if pb.OptionalInt64 == nil {
+		t.Errorf("Field expected, OptionalInt64")
+		t.FailNow()
+	}
+	if pb.OptionalInt64String == nil {
+		t.Errorf("Field expected, OptionalInt64String")
+		t.FailNow()
 	}
 	if *pb.OptionalUint64 != 1000000000000000001 {
 		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalUint64)
@@ -591,6 +662,18 @@ func TestObjectKeyTagLargeIntDeserialization(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unalble to UnmarshalObjectKeyTag: %v", err)
 	}
+	if pb.OptionalUint64 == nil {
+		t.Errorf("Field expected, OptionalUint64")
+		t.FailNow()
+	}
+	if pb.OptionalInt64 == nil {
+		t.Errorf("Field expected, OptionalInt64")
+		t.FailNow()
+	}
+	if pb.OptionalInt64String == nil {
+		t.Errorf("Field expected, OptionalInt64String")
+		t.FailNow()
+	}
 	if *pb.OptionalUint64 != 1000000000000000001 {
 		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalUint64)
 	}
@@ -607,6 +690,10 @@ func TestObjectKeyTagPackageDeserialization(t *testing.T) {
 	err := UnmarshalObjectKeyTag([]byte(objectKeyTagPackageGolden), pb)
 	if err != nil {
 		t.Fatalf("unalble to UnmarshalObjectKeyTag: %v", err)
+	}
+	if pb.OptionalInt32 == nil {
+		t.Errorf("Field expected, OptionalInt32")
+		t.FailNow()
 	}
 	if *pb.OptionalInt32 != 1 {
 		t.Errorf("Found %d, want 1", *pb.OptionalInt32)
@@ -633,6 +720,10 @@ func TestObjectKeyTagEscapeDeserialization(t *testing.T) {
 	err := UnmarshalObjectKeyTag([]byte(objectKeyTagEscapesGolden), pb)
 	if err != nil {
 		t.Fatalf("unalble to MarshalObjectKeyTag: %v", err)
+	}
+	if pb.OptionalString == nil {
+		t.Errorf("Field expected, OptionalString")
+		t.FailNow()
 	}
 	if *pb.OptionalString != specialCharString {
 		t.Errorf("Found %s, want %s", *pb.OptionalString, specialCharString)
