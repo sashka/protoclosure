@@ -5,4 +5,4 @@
 lint:
 	ls -1d *.go | xargs -I {} go fmt {}
 	ls -1d *.go | xargs -I {} go vet {}
-	! golint . | grep .
+	! golint *.go | grep .
