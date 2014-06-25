@@ -16,67 +16,291 @@ import (
 
 const (
 	// golden values were extracted from closure-library unit tests.
-	pbLiteGolden = "[null,101,\"102\",103,\"104\",105,\"106\",107,\"108\",109," +
-		"\"110\",111.5,112.5,1,\"test\",\"abcd\",[null,null,null,null,null,null," +
-		"null,null,null,null,null,null,null,null,null,null,null,111],null,[null," +
-		"112],null,null,0,null,null,null,null,null,null,null,null,null,[201," +
-		"202],[],[],[],[],[],[],[],[],[],[],[],[],[\"foo\",\"bar\"]]"
+	pbLiteGolden = "[null," +
+		"101," +
+		"\"102\"," +
+		"103," +
+		"\"104\"," +
+		"105," +
+		"\"106\"," +
+		"107," +
+		"\"108\"," +
+		"109," +
+		"\"110\"," +
+		"111.5," +
+		"112.5," +
+		"1," +
+		"\"test\"," +
+		"\"abcd\"," +
+		"[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,111]," +
+		"null," +
+		"[null,112]," +
+		"null," +
+		"null," +
+		"0," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"[201,202]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[\"foo\",\"bar\"]" +
+		"]"
 
-	pbLiteZeroIndexGolden = "[101,\"102\",103,\"104\",105,\"106\",107,\"108\"," +
-		"109,\"110\",111.5,112.5,1,\"test\",\"abcd\",[null,null,null,null,null," +
-		"null,null,null,null,null,null,null,null,null,null,null,111],null,[112]," +
-		"null,null,0,null,null,null,null,null,null,null,null,null,[201,202],[]," +
-		"[],[],[],[],[],[],[],[],[],[],[],[\"foo\",\"bar\"]]"
+	pbLiteZeroIndexGolden = "[" +
+		"101," +
+		"\"102\"," +
+		"103," +
+		"\"104\"," +
+		"105," +
+		"\"106\"," +
+		"107," +
+		"\"108\"," +
+		"109," +
+		"\"110\"," +
+		"111.5," +
+		"112.5," +
+		"1," +
+		"\"test\"," +
+		"\"abcd\"," +
+		"[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,111]," +
+		"null," +
+		"[112]," +
+		"null," +
+		"null," +
+		"0," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"[201,202]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[\"foo\",\"bar\"]" +
+		"]"
 
-	largeIntPBLiteGolden = "[null,null,null,null,\"1000000000000000001\",null," +
-		"null,null,null,null,null,null,null,null,null,null,null,null,null,null," +
-		"null,null,null,null,null,null,null,null,null,null,null,[],[],[],[],[]," +
-		"[],[],[],[],[],[],[],[],[],[],[],null,[],[],1000000000000000001," +
-		"\"1000000000000000001\"]"
+	largeIntPBLiteGolden = "[null," +
+		"null," +
+		"null," +
+		"null," +
+		"\"1000000000000000001\"," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"null," +
+		"[]," +
+		"[]," +
+		"1000000000000000001," +
+		"\"1000000000000000001\"" +
+		"]"
 
-	largeIntPBLiteZeroIndexGolden = "[null,null,null,\"1000000000000000001\"," +
-		"null,null,null,null,null,null,null,null,null,null,null,null,null,null," +
-		"null,null,null,null,null,null,null,null,null,null,null,null,[],[],[]," +
-		"[],[],[],[],[],[],[],[],[],[],[],[],[],null,[],[],1000000000000000001," +
-		"\"1000000000000000001\"]"
+	largeIntPBLiteZeroIndexGolden = "[" +
+		"null," +
+		"null," +
+		"null," +
+		"\"1000000000000000001\"," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"null," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"[]," +
+		"null," +
+		"[]," +
+		"[]," +
+		"1000000000000000001," +
+		"\"1000000000000000001\"" +
+		"]"
 
-	pbLitePackageGolden = "[null,1," + pbLiteGolden + "]"
+	pbLitePackageGolden = "[null," +
+		"1," +
+		pbLiteGolden +
+		"]"
 
-	pbLitePackageZeroIndexGolden = "[1," + pbLiteZeroIndexGolden + "]"
+	pbLitePackageZeroIndexGolden = "[" +
+		"1," +
+		pbLiteZeroIndexGolden +
+		"]"
 
-	objectKeyNameGolden = "{\"optional_int32\":101,\"optional_int64\":\"102\"," +
-		"\"optional_uint32\":103,\"optional_uint64\":\"104\"," +
-		"\"optional_sint32\":105,\"optional_sint64\":\"106\"," +
-		"\"optional_fixed32\":107,\"optional_fixed64\":\"108\"," +
-		"\"optional_sfixed32\":109,\"optional_sfixed64\":\"110\"," +
-		"\"optional_float\":111.5,\"optional_double\":112.5," +
-		"\"optional_bool\":true,\"optional_string\":\"test\"," +
-		"\"optional_bytes\":\"abcd\",\"optionalgroup\":{\"a\":111}," +
-		"\"optional_nested_message\":{\"b\":112},\"optional_nested_enum\":0," +
-		"\"repeated_int32\":[201,202],\"repeated_string\":[\"foo\",\"bar\"]}"
+	objectKeyNameGolden = "{" +
+		"\"optional_bool\":true," +
+		"\"optional_bytes\":\"abcd\"," +
+		"\"optional_double\":112.5," +
+		"\"optional_fixed32\":107," +
+		"\"optional_fixed64\":\"108\"," +
+		"\"optional_float\":111.5," +
+		"\"optional_int32\":101," +
+		"\"optional_int64\":\"102\"," +
+		"\"optional_nested_enum\":0," +
+		"\"optional_nested_message\":{\"b\":112}," +
+		"\"optional_sfixed32\":109," +
+		"\"optional_sfixed64\":\"110\"," +
+		"\"optional_sint32\":105," +
+		"\"optional_sint64\":\"106\"," +
+		"\"optional_string\":\"test\"," +
+		"\"optional_uint32\":103," +
+		"\"optional_uint64\":\"104\"," +
+		"\"optionalgroup\":{\"a\":111}," +
+		"\"repeated_int32\":[201,202]," +
+		"\"repeated_string\":[\"foo\",\"bar\"]" +
+		"}"
 
-	largeIntObjectKeyNameGolden = "{\"optional_uint64\":\"1000000000000000001\"," +
+	largeIntObjectKeyNameGolden = "{" +
+		"\"optional_uint64\":\"1000000000000000001\"," +
 		"\"optional_int64_number\":1000000000000000001," +
-		"\"optional_int64_string\":\"1000000000000000001\"}"
+		"\"optional_int64_string\":\"1000000000000000001\"" +
+		"}"
 
-	objectKeyNamePackageGolden = "{\"optional_int32\":1,\"other_all\":" +
-		objectKeyNameGolden + "}"
+	objectKeyNamePackageGolden = "{" +
+		"\"optional_int32\":1," +
+		"\"other_all\":" + objectKeyNameGolden +
+		"}"
 
-	objectKeyTagGolden = "{\"1\":101,\"2\":\"102\",\"3\":103,\"4\":\"104\",\"5\":105," +
-		"\"6\":\"106\",\"7\":107,\"8\":\"108\",\"9\":109,\"10\":\"110\"," +
-		"\"11\":111.5,\"12\":112.5,\"13\":true,\"14\":\"test\"," +
-		"\"15\":\"abcd\",\"16\":{\"17\":111},\"18\":{\"1\":112},\"21\":0," +
-		"\"31\":[201,202],\"44\":[\"foo\",\"bar\"]}"
+	objectKeyTagGolden = "{" +
+		"\"1\":101," +
+		"\"10\":\"110\"," +
+		"\"11\":111.5," +
+		"\"12\":112.5," +
+		"\"13\":true," +
+		"\"14\":\"test\"," +
+		"\"15\":\"abcd\"," +
+		"\"16\":{\"17\":111}," +
+		"\"18\":{\"1\":112}," +
+		"\"2\":\"102\"," +
+		"\"21\":0," +
+		"\"3\":103," +
+		"\"31\":[201,202]," +
+		"\"4\":\"104\"," +
+		"\"44\":[\"foo\",\"bar\"]," +
+		"\"5\":105," +
+		"\"6\":\"106\"," +
+		"\"7\":107," +
+		"\"8\":\"108\"," +
+		"\"9\":109" +
+		"}"
 
-	largeIntObjectKeyTagGolden = "{\"4\":\"1000000000000000001\"," +
+	largeIntObjectKeyTagGolden = "{" +
+		"\"4\":\"1000000000000000001\"," +
 		"\"50\":1000000000000000001," +
-		"\"51\":\"1000000000000000001\"}"
+		"\"51\":\"1000000000000000001\"" +
+		"}"
 
-	objectKeyTagPackageGolden = "{\"1\":1,\"2\":" + objectKeyTagGolden + "}"
+	objectKeyTagPackageGolden = "{" +
+		"\"1\":1" +
+		",\"2\":" + objectKeyTagGolden +
+		"}"
 
 	specialCharString         = "\x04\"\\/\b\f\n\r\tÄúɠ"
-	objectKeyTagEscapesGolden = "{\"14\":\"\\u0004\\\"\\\\/\\b\\f\\n\\r\\tÄúɠ\"," +
-		"\"15\":\"\\u0004\\\"\\\\/\\b\\f\\n\\r\\tÄúɠ\"}"
+	objectKeyTagEscapesGolden = "{" +
+		"\"14\":\"\\u0004\\\"\\\\/\\u0008\\u000c\\n\\r\\u0009Äúɠ\"," +
+		"\"15\":\"\\u0004\\\"\\\\/\\u0008\\u000c\\n\\r\\u0009Äúɠ\"" +
+		"}"
 )
 
 func populateMessage(pb *test_pb.TestAllTypes) {

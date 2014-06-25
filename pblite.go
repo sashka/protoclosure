@@ -131,7 +131,7 @@ func toPBLite(pb proto.Message, zeroIndex bool) *pbLite {
 	return &pbl
 }
 
-func toPB(pbl *pbLite, pb proto.Message, zeroIndex bool) error {
+func fromPBLite(pbl *pbLite, pb proto.Message, zeroIndex bool) error {
 	maxTagNumber, tagMap := genTagMap(pb)
 	pbType := reflect.TypeOf(pb).Elem()
 	pbValue := reflect.ValueOf(pb).Elem()
@@ -173,7 +173,7 @@ func toPB(pbl *pbLite, pb proto.Message, zeroIndex bool) error {
 					return fmt.Errorf("Illegal JSON sub message format")
 				}
 				pblSM := pbLite(subMessage)
-				err := toPB(&pblSM, newFV.Interface().(proto.Message), zeroIndex)
+				err := fromPBLite(&pblSM, newFV.Interface().(proto.Message), zeroIndex)
 				if err != nil {
 					return err
 				}
