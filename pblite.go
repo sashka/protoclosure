@@ -136,12 +136,18 @@ func toPB(pbl *pbLite, pb proto.Message, zeroIndex bool) error {
 	pbType := reflect.TypeOf(pb).Elem()
 	pbValue := reflect.ValueOf(pb).Elem()
 
-	startIndex := 0
+	startIndex := 1
 	if zeroIndex {
-		startIndex = 1
+		startIndex = 0
 	}
 	for ti := startIndex; ti <= maxTagNumber && ti < len(*pbl); ti++ {
-		i, ok := tagMap[ti]
+		var i int
+		var ok bool
+		if zeroIndex {
+			i, ok = tagMap[ti + 1]
+		} else {
+			i, ok = tagMap[ti]
+		}
 		if !ok {
 			continue
 		}
