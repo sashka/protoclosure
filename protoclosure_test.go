@@ -114,6 +114,10 @@ func populateMessage(pb *test_pb.TestAllTypes) {
 }
 
 func validateMessage(t *testing.T, pb *test_pb.TestAllTypes) {
+	if pb == nil {
+		t.Errorf("nil pb")
+		t.FailNow()
+	}
 	if pb.OptionalInt32 == nil {
 		t.Errorf("Field expected, OptionalInt32")
 		t.FailNow()
@@ -171,7 +175,7 @@ func validateMessage(t *testing.T, pb *test_pb.TestAllTypes) {
 		t.FailNow()
 	}
 	if pb.Optionalgroup == nil {
-		t.Errorf("Field expected, OptionalOptionalgroup")
+		t.Errorf("Field expected, Optionalgroup")
 		t.FailNow()
 	}
 	if pb.OptionalNestedMessage == nil {

@@ -15,21 +15,13 @@ import (
 // MarshalPBLite takes the protocol buffer and encodes it into the PBLite JSON
 // format, returning the data.
 func MarshalPBLite(pb proto.Message) ([]byte, error) {
-	pbl, err := toPBLite(pb, false)
-	if err != nil {
-		return nil, err
-	}
-	return json.Marshal(pbl)
+	return json.Marshal(toPBLite(pb, false))
 }
 
 // MarshalPBLiteZeroIndex takes the protocol buffer and encodes it into the
 // zero-indexed PBLite JSON format, returning the data.
 func MarshalPBLiteZeroIndex(pb proto.Message) ([]byte, error) {
-	pbl, err := toPBLite(pb, true)
-	if err != nil {
-		return nil, err
-	}
-	return json.Marshal(pbl)
+	return json.Marshal(toPBLite(pb, true))
 }
 
 // MarshalObjectKeyName takes the protocol buffer and encodes it into the
