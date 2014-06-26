@@ -3,7 +3,7 @@ protoclosure
 
 [Protocol Buffer](https://code.google.com/p/protobuf/) interoperability
 between [Go](http://golang.org)'s
-[goprotobuf](https://code.google.com/p/goprotobuf/) and JavaScript using
+[goprotobuf](https://code.google.com/p/goprotobuf/) and JavaScript (using
 [closure-library](https://developers.google.com/closure/library/)'s
 [goog.proto2](https://github.com/google/closure-library/tree/master/closure/goog/proto2)).
 
