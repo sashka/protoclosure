@@ -15,11 +15,36 @@ import (
 
 type pbObject map[string]interface{}
 
+func toPBObjectKey(ft *reflect.StructField, tagNumbers bool) string {
+	p := &proto.Properties{}
+	p.Init(ft.Type, ft.Name, ft.Tag.Get("protobuf"), ft)
+
+	k := strings.ToLower(p.OrigName)
+	if tagNumbers {
+		k = strconv.FormatInt(int64(p.Tag), 10)
+	}
+	return k
+}
+
+func toPBObjectValue(v interface{}, tagNumbers bool) interface{} {
+	switch vt := v.(type) {
+	case *int64:
+		return strconv.FormatInt(*vt, 10)
+	case *uint64:
+		return strconv.FormatUint(*vt, 10)
+	case []uint8:
+		return string(vt)
+	case proto.Message:
+		return toPBObject(vt, tagNumbers)
+	default:
+		return v
+	}
+}
+
 func toPBObject(pb proto.Message, tagNumbers bool) *pbObject {
 	pbo := pbObject{}
 
 	pbType := reflect.TypeOf(pb).Elem()
-
 	pbValue := reflect.ValueOf(pb).Elem()
 	for i := 0; i < pbType.NumField(); i++ {
 		ft := pbType.Field(i)
@@ -33,32 +58,9 @@ func toPBObject(pb proto.Message, tagNumbers bool) *pbObject {
 			continue
 		}
 
-		p := &proto.Properties{}
-		p.Init(ft.Type, ft.Name, ft.Tag.Get("protobuf"), &ft)
-
-		// set key
-		k := strings.ToLower(p.OrigName)
-		if tagNumbers {
-			k = strconv.FormatInt(int64(p.Tag), 10)
-		}
-
-		// set value
-		v := fv.Interface()
-
-		if fv.Type().Implements(typeOfMessage) {
-			v = toPBObject(v.(proto.Message), tagNumbers)
-		} else {
-			switch vt := v.(type) {
-			case *int64:
-				v = strconv.FormatInt(*vt, 10)
-			case *uint64:
-				v = strconv.FormatUint(*vt, 10)
-			case []uint8:
-				v = string(vt)
-			}
-		}
-
-		//fmt.Printf("k: %s v: %v %T\n", k, v, v)
+		// populate pbo map with rewritten key, value pairs
+		k := toPBObjectKey(&ft, tagNumbers)
+		v := toPBObjectValue(fv.Interface(), tagNumbers)
 		pbo[k] = v
 	}
 

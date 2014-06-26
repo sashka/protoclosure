@@ -55,11 +55,31 @@ func genTagMap(pb proto.Message) (int, map[int]int) {
 	return maxTagNumber, tagMap
 }
 
+func toPBLiteValue(v interface{}, zeroIndex bool) interface{} {
+	switch vt := v.(type) {
+	case *int64:
+		return strconv.FormatInt(*vt, 10)
+	case *uint64:
+		return strconv.FormatUint(*vt, 10)
+	case []uint8:
+		return string(vt)
+	case proto.Message:
+		return toPBLite(vt, zeroIndex)
+	case *bool:
+		if *vt {
+			return int(1)
+		} else {
+			return int(0)
+		}
+	default:
+		return v
+	}
+}
+
 func toPBLite(pb proto.Message, zeroIndex bool) *pbLite {
 	pbl := pbLite{}
 
 	maxTagNumber, tagMap := genTagMap(pb)
-	pbType := reflect.TypeOf(pb).Elem()
 	pbValue := reflect.ValueOf(pb).Elem()
 
 	startIndex := 0
@@ -73,55 +93,19 @@ func toPBLite(pb proto.Message, zeroIndex bool) *pbLite {
 			pbl = append(pbl, nil)
 			continue
 		}
-
-		ft := pbType.Field(i)
-		p := &proto.Properties{}
-		p.Init(ft.Type, ft.Name, ft.Tag.Get("protobuf"), &ft)
 		fv := pbValue.Field(i)
-		switch fv.Kind() {
-		case reflect.Ptr:
-			if fv.IsNil() {
-				pbl = append(pbl, nil)
-				continue
-			}
 
-			if fv.Type().Implements(typeOfMessage) {
-				subMessage := toPBLite(fv.Interface().(proto.Message), zeroIndex)
-				pbl = append(pbl, subMessage)
+		if fv.IsNil() {
+			if fv.Kind() == reflect.Slice {
+				pbl = append(pbl, []string{})
 			} else {
-				fve := fv.Elem()
-				switch fve.Kind() {
-				case reflect.Int64:
-					val := fve.Int()
-					pbl = append(pbl, strconv.FormatInt(val, 10))
-				case reflect.Uint64:
-					val := fve.Uint()
-					pbl = append(pbl, strconv.FormatUint(val, 10))
-				case reflect.Bool:
-					if fve.Bool() {
-						pbl = append(pbl, 1)
-					} else {
-						pbl = append(pbl, 0)
-					}
-				default:
-					pbl = append(pbl, fv.Interface())
-				}
+				pbl = append(pbl, nil)
 			}
-		case reflect.Slice:
-			switch fv.Type() {
-			case typeOfSliceBytes, typeOfSliceUint8:
-				pbl = append(pbl, fv.Convert(typeOfString).String())
-			default:
-				if fv.IsNil() {
-					pbl = append(pbl, []string{})
-					continue
-				} else {
-					pbl = append(pbl, fv.Interface())
-				}
-			}
-		default:
-			pbl = append(pbl, fv.Interface())
+			continue
 		}
+
+		v := toPBLiteValue(fv.Interface(), zeroIndex)
+		pbl = append(pbl, v)
 		lastNonNil = len(pbl)
 	}
 
