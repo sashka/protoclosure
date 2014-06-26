@@ -14,7 +14,18 @@ import (
 	test_pb "gopkg.in/samegoal/protoclosure.v0/test.pb"
 )
 
+// JS limits integers stored in Numbers (not strings) to the IEEE-754 floating
+// point range: (-2^53+1), ..., (2^53-1)
+//
+// Number.MAX_SAFE_INTEGER = 9007199254740991
+// Number.MIN_SAFE_INTEGER -9007199254740991
+
 const (
+	oobJSInt     = 9007199254740993
+	oobJSStr     = "9007199254740993"
+	maxSafeJSInt = 9007199254740991
+	maxSafeJSStr = "9007199254740991"
+
 	// golden values were extracted from closure-library unit tests.
 	pbLiteGolden = "[null," +
 		"101," +
@@ -114,7 +125,7 @@ const (
 		"null," +
 		"null," +
 		"null," +
-		"\"1000000000000000001\"," +
+		"\"" + oobJSStr + "\"," +
 		"null," +
 		"null," +
 		"null," +
@@ -160,15 +171,15 @@ const (
 		"null," +
 		"[]," +
 		"[]," +
-		"1000000000000000001," +
-		"\"1000000000000000001\"" +
+		maxSafeJSStr + "," +
+		"\"" + oobJSStr + "\"" +
 		"]"
 
 	largeIntPBLiteZeroIndexGolden = "[" +
 		"null," +
 		"null," +
 		"null," +
-		"\"1000000000000000001\"," +
+		"\"" + oobJSStr + "\"," +
 		"null," +
 		"null," +
 		"null," +
@@ -214,8 +225,8 @@ const (
 		"null," +
 		"[]," +
 		"[]," +
-		"1000000000000000001," +
-		"\"1000000000000000001\"" +
+		maxSafeJSStr + "," +
+		"\"" + oobJSStr + "\"" +
 		"]"
 
 	pbLitePackageGolden = "[null," +
@@ -252,9 +263,9 @@ const (
 		"}"
 
 	largeIntObjectKeyNameGolden = "{" +
-		"\"optional_uint64\":\"1000000000000000001\"," +
-		"\"optional_int64_number\":1000000000000000001," +
-		"\"optional_int64_string\":\"1000000000000000001\"" +
+		"\"optional_uint64\":\"" + oobJSStr + "\"," +
+		"\"optional_int64_number\":" + maxSafeJSStr + "," +
+		"\"optional_int64_string\":\"" + oobJSStr + "\"" +
 		"}"
 
 	objectKeyNamePackageGolden = "{" +
@@ -286,9 +297,9 @@ const (
 		"}"
 
 	largeIntObjectKeyTagGolden = "{" +
-		"\"4\":\"1000000000000000001\"," +
-		"\"50\":1000000000000000001," +
-		"\"51\":\"1000000000000000001\"" +
+		"\"4\":\"" + oobJSStr + "\"," +
+		"\"50\":" + maxSafeJSStr + "," +
+		"\"51\":\"" + oobJSStr + "\"" +
 		"}"
 
 	objectKeyTagPackageGolden = "{" +
@@ -567,9 +578,9 @@ func TestMarshalPBLite(t *testing.T) {
 /*
 func TestMarshalPBLiteLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
-	pb.OptionalUint64 = proto.Uint64(1000000000000000001)
-	pb.OptionalInt64Number = proto.Int64(1000000000000000001)
-	pb.OptionalInt64String = proto.Int64(1000000000000000001)
+	pb.OptionalUint64 = proto.Uint64(oobJSInt)
+	pb.OptionalInt64Number = proto.Int64(maxSafeJSInt)
+	pb.OptionalInt64String = proto.Int64(oobJSInt)
 
 	s, err := MarshalPBLite(pb)
 	if err != nil {
@@ -606,7 +617,6 @@ func TestUnmarshalPBLite(t *testing.T) {
 	validateMessage(t, pb)
 }
 
-/*
 func TestUnmarshalPBLiteLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalPBLite([]byte(largeIntPBLiteGolden), pb)
@@ -625,17 +635,16 @@ func TestUnmarshalPBLiteLargeInt(t *testing.T) {
 		t.Errorf("Field expected, OptionalInt64String")
 		t.FailNow()
 	}
-	if *pb.OptionalUint64 != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalUint64)
+	if *pb.OptionalUint64 != oobJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalUint64, oobJSInt)
 	}
-	if *pb.OptionalInt64Number != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalInt64Number)
+	if *pb.OptionalInt64Number != maxSafeJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalInt64Number, maxSafeJSInt)
 	}
-	if *pb.OptionalInt64String != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalInt64String)
+	if *pb.OptionalInt64String != oobJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalInt64String, oobJSInt)
 	}
 }
-*/
 
 func TestUnmarshalPBLitePackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
@@ -665,9 +674,9 @@ func TestMarshalPBLiteZeroIndex(t *testing.T) {
 /*
 func TestMarshalPBLiteZeroIndexLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
-	pb.OptionalUint64 = proto.Uint64(1000000000000000001)
-	pb.OptionalInt64Number = proto.Int64(1000000000000000001)
-	pb.OptionalInt64String = proto.Int64(1000000000000000001)
+	pb.OptionalUint64 = proto.Uint64(oobJSInt)
+	pb.OptionalInt64Number = proto.Int64(maxSafeJSInt)
+	pb.OptionalInt64String = proto.Int64(oobJSInt)
 
 	s, err := MarshalPBLiteZeroIndex(pb)
 	if err != nil {
@@ -704,7 +713,6 @@ func TestUnmarshalPBLiteZeroIndex(t *testing.T) {
 	validateMessage(t, pb)
 }
 
-/*
 func TestUnmarshalPBLiteZeroIndexLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalPBLiteZeroIndex([]byte(largeIntPBLiteZeroIndexGolden), pb)
@@ -723,17 +731,16 @@ func TestUnmarshalPBLiteZeroIndexLargeInt(t *testing.T) {
 		t.Errorf("Field expected, OptionalInt64String")
 		t.FailNow()
 	}
-	if *pb.OptionalUint64 != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalUint64)
+	if *pb.OptionalUint64 != oobJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalUint64, oobJSInt)
 	}
-	if *pb.OptionalInt64Number != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalInt64Number)
+	if *pb.OptionalInt64Number != maxSafeJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalInt64Number, maxSafeJSInt)
 	}
-	if *pb.OptionalInt64String != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalInt64String)
+	if *pb.OptionalInt64String != oobJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalInt64String, oobJSInt)
 	}
 }
-*/
 
 func TestUnmarshalPBLitePackageZeroIndex(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
@@ -763,9 +770,9 @@ func TestMarshalObjectKeyName(t *testing.T) {
 /*
 func TestMarshalObjectKeyNameLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
-	pb.OptionalUint64 = proto.Uint64(1000000000000000001)
-	pb.OptionalInt64Number = proto.Int64(1000000000000000001)
-	pb.OptionalInt64String = proto.Int64(1000000000000000001)
+	pb.OptionalUint64 = proto.Uint64(oobJSInt)
+	pb.OptionalInt64Number = proto.Int64(maxSafeJSInt)
+	pb.OptionalInt64String = proto.Int64(oobJSInt)
 
 	s, err := MarshalObjectKeyName(pb)
 	if err != nil {
@@ -801,7 +808,6 @@ func TestUnmarshalObjectKeyName(t *testing.T) {
 	validateMessage(t, pb)
 }
 
-/*
 func TestUnmarshalObjectKeyNameLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyName([]byte(largeIntObjectKeyNameGolden), pb)
@@ -820,17 +826,16 @@ func TestUnmarshalObjectKeyNameLargeInt(t *testing.T) {
 		t.Errorf("Field expected, OptionalInt64String")
 		t.FailNow()
 	}
-	if *pb.OptionalUint64 != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalUint64)
+	if *pb.OptionalUint64 != oobJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalUint64, oobJSInt)
 	}
-	if *pb.OptionalInt64Number != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalInt64Number)
+	if *pb.OptionalInt64Number != maxSafeJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalInt64Number, maxSafeJSInt)
 	}
-	if *pb.OptionalInt64String != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalInt64String)
+	if *pb.OptionalInt64String != oobJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalInt64String, oobJSInt)
 	}
 }
-*/
 
 func TestUnmarshalObjectKeyNamePackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
@@ -864,9 +869,9 @@ func TestMarshalObjectKeyTag(t *testing.T) {
 /*
 func TestMarshalObjectKeyTagLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
-	pb.OptionalUint64 = proto.Uint64(1000000000000000001)
-	pb.OptionalInt64Number = proto.Int64(1000000000000000001)
-	pb.OptionalInt64String = proto.Int64(1000000000000000001)
+	pb.OptionalUint64 = proto.Uint64(oobJSInt)
+	pb.OptionalInt64Number = proto.Int64(maxSafeJSInt)
+	pb.OptionalInt64String = proto.Int64(oobJSInt)
 
 	s, err := MarshalObjectKeyTag(pb)
 	if err != nil {
@@ -902,7 +907,6 @@ func TestUnmarshalObjectKeyTag(t *testing.T) {
 	validateMessage(t, pb)
 }
 
-/*
 func TestUnmarshalObjectKeyTagLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyTag([]byte(largeIntObjectKeyTagGolden), pb)
@@ -921,17 +925,16 @@ func TestUnmarshalObjectKeyTagLargeInt(t *testing.T) {
 		t.Errorf("Field expected, OptionalInt64String")
 		t.FailNow()
 	}
-	if *pb.OptionalUint64 != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalUint64)
+	if *pb.OptionalUint64 != oobJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalUint64, oobJSInt)
 	}
-	if *pb.OptionalInt64Number != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalInt64Number)
+	if *pb.OptionalInt64Number != maxSafeJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalInt64Number, maxSafeJSInt)
 	}
-	if *pb.OptionalInt64String != 1000000000000000001 {
-		t.Errorf("Found %d, want 1000000000000000001", *pb.OptionalInt64String)
+	if *pb.OptionalInt64String != oobJSInt {
+		t.Errorf("Found %d, want %d", *pb.OptionalInt64String, oobJSInt)
 	}
 }
-*/
 
 func TestUnmarshalObjectKeyTagPackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}

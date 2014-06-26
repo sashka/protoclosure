@@ -13,26 +13,6 @@ import (
 	"code.google.com/p/goprotobuf/proto"
 )
 
-var (
-	typeOfSliceBool    = reflect.TypeOf([]bool{})
-	typeOfSliceUint8   = reflect.TypeOf([]uint8{})
-	typeOfSliceFloat32 = reflect.TypeOf([]float32{})
-	typeOfSliceFloat64 = reflect.TypeOf([]float64{})
-	typeOfSliceUint32  = reflect.TypeOf([]uint32{})
-	typeOfSliceUint64  = reflect.TypeOf([]uint64{})
-	typeOfSliceInt32   = reflect.TypeOf([]int32{})
-	typeOfSliceInt64   = reflect.TypeOf([]int64{})
-	typeOfSliceString  = reflect.TypeOf([]string{})
-
-	typeOfMessage = reflect.TypeOf((*proto.Message)(nil)).Elem()
-	typeOfString  = reflect.TypeOf("")
-	typeOfUint64  = reflect.TypeOf(uint64(0))
-	typeOfUint32  = reflect.TypeOf(uint32(0))
-	typeOfFloat64 = reflect.TypeOf(float64(0))
-	typeOfFloat32 = reflect.TypeOf(float32(0))
-	typeOfBool    = reflect.TypeOf(true)
-)
-
 type pbLite []interface{}
 
 func genTagMap(pb proto.Message) (int, map[int]int) {
@@ -115,6 +95,10 @@ func toPBLite(pb proto.Message, zeroIndex bool) *pbLite {
 }
 
 func setPBLiteField(fv *reflect.Value, v interface{}, zeroIndex bool) error {
+	if v == nil {
+		return nil
+	}
+
 	switch fv.Kind() {
 	case reflect.Ptr:
 		if fv.Type().Implements(typeOfMessage) {

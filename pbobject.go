@@ -13,10 +13,6 @@ import (
 	"code.google.com/p/goprotobuf/proto"
 )
 
-var (
-	typeOfInt64 = reflect.TypeOf(int64(0))
-)
-
 type pbObject map[string]interface{}
 
 func toPBObjectKey(ft *reflect.StructField, tagName bool) string {
@@ -72,6 +68,10 @@ func toPBObject(pb proto.Message, tagName bool) *pbObject {
 }
 
 func setPBObjectField(fv *reflect.Value, v interface{}, tagName bool) error {
+	if v == nil {
+		return nil
+	}
+
 	switch fv.Kind() {
 	case reflect.Ptr:
 		if fv.Type().Implements(typeOfMessage) {

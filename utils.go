@@ -8,6 +8,26 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+
+	"code.google.com/p/goprotobuf/proto"
+)
+
+var (
+	typeOfSliceBool    = reflect.TypeOf([]bool{})
+	typeOfSliceUint8   = reflect.TypeOf([]uint8{})
+	typeOfSliceFloat32 = reflect.TypeOf([]float32{})
+	typeOfSliceFloat64 = reflect.TypeOf([]float64{})
+	typeOfSliceUint32  = reflect.TypeOf([]uint32{})
+	typeOfSliceUint64  = reflect.TypeOf([]uint64{})
+	typeOfSliceInt32   = reflect.TypeOf([]int32{})
+	typeOfSliceInt64   = reflect.TypeOf([]int64{})
+	typeOfSliceString  = reflect.TypeOf([]string{})
+
+	typeOfMessage = reflect.TypeOf((*proto.Message)(nil)).Elem()
+	typeOfString  = reflect.TypeOf("")
+	typeOfUint64  = reflect.TypeOf(uint64(0))
+	typeOfBool    = reflect.TypeOf(true)
+	typeOfInt64   = reflect.TypeOf(int64(0))
 )
 
 func setPBFieldPtr(fv *reflect.Value, v interface{}) error {
@@ -67,6 +87,7 @@ func setPBFieldPtr(fv *reflect.Value, v interface{}) error {
 		case float64:
 			// legal conversion
 		default:
+			fmt.Printf("fv: %v v: %v\n", fv, v)
 			return fmt.Errorf("Cannot convert %T to %v", v, fv.Type().Elem())
 		}
 	}
@@ -78,6 +99,10 @@ func setPBFieldPtr(fv *reflect.Value, v interface{}) error {
 }
 
 func setPBFieldSlice(fv *reflect.Value, v interface{}) error {
+	if vt, ok := v.([]interface{}); ok && len(vt) == 0 {
+		return nil
+	}
+
 	newFV := reflect.MakeSlice(fv.Type(), 0, 0)
 
 	var err error
