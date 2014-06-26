@@ -519,19 +519,19 @@ func validateMessage(t *testing.T, pb *test_pb.TestAllTypes) {
 		t.Errorf("Found %d, want 110 (OptionalSfixed64)", *pb.OptionalSfixed64)
 	}
 	if *pb.OptionalFloat != 111.5 {
-		t.Errorf("Found %d, want 111.5 (OptionalFloat)", *pb.OptionalFloat)
+		t.Errorf("Found %f, want 111.5 (OptionalFloat)", *pb.OptionalFloat)
 	}
 	if *pb.OptionalDouble != 112.5 {
-		t.Errorf("Found %d, want 112.5 (OptionalDouble)", *pb.OptionalDouble)
+		t.Errorf("Found %f, want 112.5 (OptionalDouble)", *pb.OptionalDouble)
 	}
 	if !*pb.OptionalBool {
-		t.Errorf("Found %d, want true (OptionalBool)", *pb.OptionalBool)
+		t.Errorf("Found %t, want true (OptionalBool)", *pb.OptionalBool)
 	}
 	if *pb.OptionalString != "test" {
-		t.Errorf("Found %d, want 'test' (OptionalString)", *pb.OptionalString)
+		t.Errorf("Found %s, want 'test' (OptionalString)", *pb.OptionalString)
 	}
 	if !bytes.Equal(pb.OptionalBytes, []byte("abcd")) {
-		t.Errorf("Found %d, want 'abcd' (OptionalBytes)", pb.OptionalBytes)
+		t.Errorf("Found %s, want 'abcd' (OptionalBytes)", pb.OptionalBytes)
 	}
 	if *pb.Optionalgroup.A != 111 {
 		t.Errorf("Found %d, want 111 (Optionalgroup.A)", *pb.Optionalgroup.A)
@@ -557,7 +557,7 @@ func TestMarshalPBLite(t *testing.T) {
 
 	s, err := MarshalPBLite(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalPBLite: %v", err)
+		t.Fatalf("unable to MarshalPBLite: %v", err)
 	}
 	if !bytes.Equal(s, []byte(pbLiteGolden)) {
 		t.Errorf("Found %s, want %s", string(s), pbLiteGolden)
@@ -573,7 +573,7 @@ func TestMarshalPBLiteLargeInt(t *testing.T) {
 
 	s, err := MarshalPBLite(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalPBLite: %v", err)
+		t.Fatalf("unable to MarshalPBLite: %v", err)
 	}
 	if !bytes.Equal(s, []byte(largeIntPBLiteGolden)) {
 		t.Errorf("Found %s, want %s", string(s), largeIntPBLiteGolden)
@@ -590,7 +590,7 @@ func TestMarshalPBLitePackage(t *testing.T) {
 
 	s, err := MarshalPBLite(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalPBLite: %v", err)
+		t.Fatalf("unable to MarshalPBLite: %v", err)
 	}
 	if !bytes.Equal(s, []byte(pbLitePackageGolden)) {
 		t.Errorf("Found %s, want %s", string(s), pbLitePackageGolden)
@@ -601,7 +601,7 @@ func TestUnmarshalPBLite(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalPBLite([]byte(pbLiteGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalPBLite: %v", err)
+		t.Fatalf("unable to UnmarshalPBLite: %v", err)
 	}
 	validateMessage(t, pb)
 }
@@ -611,7 +611,7 @@ func TestUnmarshalPBLiteLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalPBLite([]byte(largeIntPBLiteGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalPBLite: %v", err)
+		t.Fatalf("unable to UnmarshalPBLite: %v", err)
 	}
 	if pb.OptionalUint64 == nil {
 		t.Errorf("Field expected, OptionalUint64")
@@ -641,7 +641,7 @@ func TestUnmarshalPBLitePackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	err := UnmarshalPBLite([]byte(pbLitePackageGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalPBLite: %v", err)
+		t.Fatalf("unable to UnmarshalPBLite: %v", err)
 	}
 	if *pb.OptionalInt32 != 1 {
 		t.Errorf("Found %d, want 1", *pb.OptionalInt32)
@@ -655,7 +655,7 @@ func TestMarshalPBLiteZeroIndex(t *testing.T) {
 
 	s, err := MarshalPBLiteZeroIndex(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalPBLiteZeroIndex: %v", err)
+		t.Fatalf("unable to MarshalPBLiteZeroIndex: %v", err)
 	}
 	if !bytes.Equal(s, []byte(pbLiteZeroIndexGolden)) {
 		t.Errorf("Found %s, want %s", string(s), pbLiteZeroIndexGolden)
@@ -671,7 +671,7 @@ func TestMarshalPBLiteZeroIndexLargeInt(t *testing.T) {
 
 	s, err := MarshalPBLiteZeroIndex(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalPBLiteZeroIndex: %v", err)
+		t.Fatalf("unable to MarshalPBLiteZeroIndex: %v", err)
 	}
 	if !bytes.Equal(s, []byte(largeIntPBLiteZeroIndexGolden)) {
 		t.Errorf("Found %s, want %s", string(s), largeIntPBLiteZeroIndexGolden)
@@ -688,7 +688,7 @@ func TestMarshalPBLiteZeroIndexPackage(t *testing.T) {
 
 	s, err := MarshalPBLiteZeroIndex(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalPBLiteZeroIndex: %v", err)
+		t.Fatalf("unable to MarshalPBLiteZeroIndex: %v", err)
 	}
 	if !bytes.Equal(s, []byte(pbLitePackageZeroIndexGolden)) {
 		t.Errorf("Found %s, want %s", string(s), pbLitePackageZeroIndexGolden)
@@ -699,7 +699,7 @@ func TestUnmarshalPBLiteZeroIndex(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalPBLiteZeroIndex([]byte(pbLiteZeroIndexGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalPBLiteZeroIndex: %v", err)
+		t.Fatalf("unable to UnmarshalPBLiteZeroIndex: %v", err)
 	}
 	validateMessage(t, pb)
 }
@@ -709,7 +709,7 @@ func TestUnmarshalPBLiteZeroIndexLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalPBLiteZeroIndex([]byte(largeIntPBLiteZeroIndexGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalPBLiteZeroIndex: %v", err)
+		t.Fatalf("unable to UnmarshalPBLiteZeroIndex: %v", err)
 	}
 	if pb.OptionalUint64 == nil {
 		t.Errorf("Field expected, OptionalUint64")
@@ -739,7 +739,7 @@ func TestUnmarshalPBLitePackageZeroIndex(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	err := UnmarshalPBLiteZeroIndex([]byte(pbLitePackageZeroIndexGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalPBLiteZeroIndex: %v", err)
+		t.Fatalf("unable to UnmarshalPBLiteZeroIndex: %v", err)
 	}
 	if *pb.OptionalInt32 != 1 {
 		t.Errorf("Found %d, want 1", *pb.OptionalInt32)
@@ -753,7 +753,7 @@ func TestMarshalObjectKeyName(t *testing.T) {
 
 	s, err := MarshalObjectKeyName(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalObjectKeyName: %v", err)
+		t.Fatalf("unable to MarshalObjectKeyName: %v", err)
 	}
 	if !bytes.Equal(s, []byte(objectKeyNameGolden)) {
 		t.Errorf("Found %s, want %s", string(s), objectKeyNameGolden)
@@ -769,7 +769,7 @@ func TestMarshalObjectKeyNameLargeInt(t *testing.T) {
 
 	s, err := MarshalObjectKeyName(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalObjectKeyName: %v", err)
+		t.Fatalf("unable to MarshalObjectKeyName: %v", err)
 	}
 	if !bytes.Equal(s, []byte(largeIntObjectKeyNameGolden)) {
 		t.Errorf("Found %s, want %s", string(s), largeIntObjectKeyNameGolden)
@@ -785,7 +785,7 @@ func TestMarshalObjectKeyNamePackage(t *testing.T) {
 	populateMessage(testMessage)
 	s, err := MarshalObjectKeyName(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalObjectKeyName: %v", err)
+		t.Fatalf("unable to MarshalObjectKeyName: %v", err)
 	}
 	if !bytes.Equal(s, []byte(objectKeyNamePackageGolden)) {
 		t.Errorf("Found %s, want %s", string(s), objectKeyNamePackageGolden)
@@ -796,7 +796,7 @@ func TestUnmarshalObjectKeyName(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyName([]byte(objectKeyNameGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalObjectKeyName: %v", err)
+		t.Fatalf("unable to UnmarshalObjectKeyName: %v", err)
 	}
 	validateMessage(t, pb)
 }
@@ -806,7 +806,7 @@ func TestUnmarshalObjectKeyNameLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyName([]byte(largeIntObjectKeyNameGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalObjectKeyName: %v", err)
+		t.Fatalf("unable to UnmarshalObjectKeyName: %v", err)
 	}
 	if pb.OptionalUint64 == nil {
 		t.Errorf("Field expected, OptionalUint64")
@@ -836,7 +836,11 @@ func TestUnmarshalObjectKeyNamePackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	err := UnmarshalObjectKeyName([]byte(objectKeyNamePackageGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalObjectKeyName: %v", err)
+		t.Fatalf("unable to UnmarshalObjectKeyName: %v", err)
+	}
+	if pb.OptionalInt32 == nil {
+		t.Errorf("Field expected, OptionalInt32")
+		t.FailNow()
 	}
 	if *pb.OptionalInt32 != 1 {
 		t.Errorf("Found %d, want 1", *pb.OptionalInt32)
@@ -850,7 +854,7 @@ func TestMarshalObjectKeyTag(t *testing.T) {
 
 	s, err := MarshalObjectKeyTag(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalObjectKeyTag: %v", err)
+		t.Fatalf("unable to MarshalObjectKeyTag: %v", err)
 	}
 	if !bytes.Equal(s, []byte(objectKeyTagGolden)) {
 		t.Errorf("Found %s, want %s", string(s), objectKeyTagGolden)
@@ -866,7 +870,7 @@ func TestMarshalObjectKeyTagLargeInt(t *testing.T) {
 
 	s, err := MarshalObjectKeyTag(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalObjectKeyTag: %v", err)
+		t.Fatalf("unable to MarshalObjectKeyTag: %v", err)
 	}
 	if !bytes.Equal(s, []byte(largeIntObjectKeyTagGolden)) {
 		t.Errorf("Found %s, want %s", string(s), largeIntObjectKeyTagGolden)
@@ -882,7 +886,7 @@ func TestMarshalObjectKeyTagPackage(t *testing.T) {
 	populateMessage(testMessage)
 	s, err := MarshalObjectKeyTag(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalObjectKeyTag: %v", err)
+		t.Fatalf("unable to MarshalObjectKeyTag: %v", err)
 	}
 	if !bytes.Equal(s, []byte(objectKeyTagPackageGolden)) {
 		t.Errorf("Found %s, want %s", string(s), objectKeyTagPackageGolden)
@@ -893,7 +897,7 @@ func TestUnmarshalObjectKeyTag(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyTag([]byte(objectKeyTagGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalObjectKeyTag: %v", err)
+		t.Fatalf("unable to UnmarshalObjectKeyTag: %v", err)
 	}
 	validateMessage(t, pb)
 }
@@ -903,7 +907,7 @@ func TestUnmarshalObjectKeyTagLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyTag([]byte(largeIntObjectKeyTagGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalObjectKeyTag: %v", err)
+		t.Fatalf("unable to UnmarshalObjectKeyTag: %v", err)
 	}
 	if pb.OptionalUint64 == nil {
 		t.Errorf("Field expected, OptionalUint64")
@@ -933,7 +937,7 @@ func TestUnmarshalObjectKeyTagPackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	err := UnmarshalObjectKeyTag([]byte(objectKeyTagPackageGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to UnmarshalObjectKeyTag: %v", err)
+		t.Fatalf("unable to UnmarshalObjectKeyTag: %v", err)
 	}
 	if pb.OptionalInt32 == nil {
 		t.Errorf("Field expected, OptionalInt32")
@@ -952,7 +956,7 @@ func TestMarshalObjectKeyTagEscape(t *testing.T) {
 
 	s, err := MarshalObjectKeyTag(pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalObjectKeyTag: %v", err)
+		t.Fatalf("unable to MarshalObjectKeyTag: %v", err)
 	}
 	if !bytes.Equal(s, []byte(objectKeyTagEscapesGolden)) {
 		t.Errorf("Found %s, want %s", string(s), objectKeyTagEscapesGolden)
@@ -963,7 +967,7 @@ func TestUnmarshalObjectKeyTagEscape(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	err := UnmarshalObjectKeyTag([]byte(objectKeyTagEscapesGolden), pb)
 	if err != nil {
-		t.Fatalf("unalble to MarshalObjectKeyTag: %v", err)
+		t.Fatalf("unable to MarshalObjectKeyTag: %v", err)
 	}
 	if pb.OptionalString == nil {
 		t.Errorf("Field expected, OptionalString")

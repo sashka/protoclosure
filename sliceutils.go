@@ -122,4 +122,3 @@ func toSliceString(s []interface{}) ([]string, error) {
 	}
 	return d, nil
 }
-

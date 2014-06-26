@@ -14,24 +14,23 @@ import (
 )
 
 var (
-	typeOfSliceBytes = reflect.TypeOf([]byte{})
-	typeOfSliceBool = reflect.TypeOf([]bool{})
-	typeOfSliceUint8 = reflect.TypeOf([]uint8{})
+	typeOfSliceBool    = reflect.TypeOf([]bool{})
+	typeOfSliceUint8   = reflect.TypeOf([]uint8{})
 	typeOfSliceFloat32 = reflect.TypeOf([]float32{})
 	typeOfSliceFloat64 = reflect.TypeOf([]float64{})
-	typeOfSliceUint32 = reflect.TypeOf([]uint32{})
-	typeOfSliceUint64 = reflect.TypeOf([]uint64{})
-	typeOfSliceInt32 = reflect.TypeOf([]int32{})
-	typeOfSliceInt64 = reflect.TypeOf([]int64{})
-	typeOfSliceString = reflect.TypeOf([]string{})
+	typeOfSliceUint32  = reflect.TypeOf([]uint32{})
+	typeOfSliceUint64  = reflect.TypeOf([]uint64{})
+	typeOfSliceInt32   = reflect.TypeOf([]int32{})
+	typeOfSliceInt64   = reflect.TypeOf([]int64{})
+	typeOfSliceString  = reflect.TypeOf([]string{})
 
 	typeOfMessage = reflect.TypeOf((*proto.Message)(nil)).Elem()
-	typeOfString = reflect.TypeOf("")
-	typeOfUint64 = reflect.TypeOf(uint64(0))
-	typeOfUint32 = reflect.TypeOf(uint32(0))
+	typeOfString  = reflect.TypeOf("")
+	typeOfUint64  = reflect.TypeOf(uint64(0))
+	typeOfUint32  = reflect.TypeOf(uint32(0))
 	typeOfFloat64 = reflect.TypeOf(float64(0))
 	typeOfFloat32 = reflect.TypeOf(float32(0))
-	typeOfBool = reflect.TypeOf(true)
+	typeOfBool    = reflect.TypeOf(true)
 )
 
 type pbLite []interface{}
@@ -68,9 +67,8 @@ func toPBLiteValue(v interface{}, zeroIndex bool) interface{} {
 	case *bool:
 		if *vt {
 			return int(1)
-		} else {
-			return int(0)
 		}
+		return int(0)
 	default:
 		return v
 	}
@@ -95,6 +93,7 @@ func toPBLite(pb proto.Message, zeroIndex bool) *pbLite {
 		}
 		fv := pbValue.Field(i)
 
+		// write stub markers for empty fields
 		if fv.IsNil() {
 			if fv.Kind() == reflect.Slice {
 				pbl = append(pbl, []string{})
@@ -128,7 +127,7 @@ func fromPBLite(pbl *pbLite, pb proto.Message, zeroIndex bool) error {
 		var i int
 		var ok bool
 		if zeroIndex {
-			i, ok = tagMap[ti + 1]
+			i, ok = tagMap[ti+1]
 		} else {
 			i, ok = tagMap[ti]
 		}
