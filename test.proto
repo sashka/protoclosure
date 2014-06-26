@@ -8,7 +8,13 @@
 
 syntax = "proto2";
 
-// TODO(hochhaus): Find work around for missing javascript_package support.
+// TODO(hochhaus): Use custom options for jstype 64-bit Number type and
+// javascript_package. Remove hard-coded special case for fields with names
+// ending in "_number".
+//
+// optional_int64_number = 50 [default = ..., (jstype) = JS_NUMBER];
+// repeated_int64_number = 52 [(jstype) = JS_NUMBER];
+//
 //option (javascript_package) = "proto2";
 
 message TestAllTypes {
@@ -47,9 +53,8 @@ message TestAllTypes {
   optional NestedMessage optional_nested_message  = 18;
   optional NestedEnum    optional_nested_enum     = 21;
 
-  // TODO(hochhaus):  (jstype) = JS_NUMBER;
-  optional int64 optional_int64_number =  50 [default = 1000000000000000001];
-  optional int64 optional_int64_string =  51 [default = 1000000000000000001];
+  optional int64 optional_int64_number =  50 [default = 9007199254740991];
+  optional int64 optional_int64_string =  51 [default = 9007199254740993];
 
   // Repeated
   repeated    int32 repeated_int32    =  31;
@@ -75,7 +80,6 @@ message TestAllTypes {
   repeated NestedMessage repeated_nested_message  = 48;
   repeated NestedEnum    repeated_nested_enum     = 49;
 
-  // TODO(hochhaus): [(jstype) = JS_NUMBER]
   repeated int64 repeated_int64_number =  52;
   repeated int64 repeated_int64_string =  53;
 }

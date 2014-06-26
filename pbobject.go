@@ -15,7 +15,7 @@ import (
 
 type pbObject map[string]interface{}
 
-func toPBObjectKey(ft *reflect.StructField, tagName bool) string {
+func toPBObjectKey(ft *reflect.StructField, tagName bool) (string, bool) {
 	p := &proto.Properties{}
 	p.Init(ft.Type, ft.Name, ft.Tag.Get("protobuf"), ft)
 
@@ -23,14 +23,24 @@ func toPBObjectKey(ft *reflect.StructField, tagName bool) string {
 	if tagName {
 		k = strconv.FormatInt(int64(p.Tag), 10)
 	}
-	return k
+	numEnc := false
+	if strings.HasSuffix(strings.ToLower(p.OrigName), "_number") {
+		numEnc = true
+	}
+	return k, numEnc
 }
 
-func toPBObjectValue(v interface{}, tagName bool) interface{} {
+func toPBObjectValue(v interface{}, tagName, numEnc bool) interface{} {
 	switch vt := v.(type) {
 	case *int64:
+		if numEnc {
+			return v
+		}
 		return strconv.FormatInt(*vt, 10)
 	case *uint64:
+		if numEnc {
+			return v
+		}
 		return strconv.FormatUint(*vt, 10)
 	case []uint8:
 		return string(vt)
@@ -59,8 +69,8 @@ func toPBObject(pb proto.Message, tagName bool) *pbObject {
 		}
 
 		// populate pbo map with rewritten key, value pairs
-		k := toPBObjectKey(&ft, tagName)
-		v := toPBObjectValue(fv.Interface(), tagName)
+		k, numEnc := toPBObjectKey(&ft, tagName)
+		v := toPBObjectValue(fv.Interface(), tagName, numEnc)
 		pbo[k] = v
 	}
 
@@ -104,7 +114,7 @@ func fromPBObject(pbo *pbObject, pb proto.Message, tagName bool) error {
 	for i := 0; i < pbType.NumField(); i++ {
 		ft := pbType.Field(i)
 		fv := pbValue.Field(i)
-		k := toPBObjectKey(&ft, tagName)
+		k, _ := toPBObjectKey(&ft, tagName)
 
 		// skip unimportant and unset fields fields
 		if strings.HasPrefix(ft.Name, "XXX_") {

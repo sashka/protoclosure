@@ -263,9 +263,9 @@ const (
 		"}"
 
 	largeIntObjectKeyNameGolden = "{" +
-		"\"optional_uint64\":\"" + oobJSStr + "\"," +
 		"\"optional_int64_number\":" + maxSafeJSStr + "," +
-		"\"optional_int64_string\":\"" + oobJSStr + "\"" +
+		"\"optional_int64_string\":\"" + oobJSStr + "\"," +
+		"\"optional_uint64\":\"" + oobJSStr + "\"" +
 		"}"
 
 	objectKeyNamePackageGolden = "{" +
@@ -575,7 +575,6 @@ func TestMarshalPBLite(t *testing.T) {
 	}
 }
 
-/*
 func TestMarshalPBLiteLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	pb.OptionalUint64 = proto.Uint64(oobJSInt)
@@ -590,7 +589,6 @@ func TestMarshalPBLiteLargeInt(t *testing.T) {
 		t.Errorf("Found %s, want %s", string(s), largeIntPBLiteGolden)
 	}
 }
-*/
 
 func TestMarshalPBLitePackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
@@ -671,7 +669,6 @@ func TestMarshalPBLiteZeroIndex(t *testing.T) {
 	}
 }
 
-/*
 func TestMarshalPBLiteZeroIndexLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	pb.OptionalUint64 = proto.Uint64(oobJSInt)
@@ -686,7 +683,6 @@ func TestMarshalPBLiteZeroIndexLargeInt(t *testing.T) {
 		t.Errorf("Found %s, want %s", string(s), largeIntPBLiteZeroIndexGolden)
 	}
 }
-*/
 
 func TestMarshalPBLiteZeroIndexPackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
@@ -767,7 +763,6 @@ func TestMarshalObjectKeyName(t *testing.T) {
 	}
 }
 
-/*
 func TestMarshalObjectKeyNameLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	pb.OptionalUint64 = proto.Uint64(oobJSInt)
@@ -782,7 +777,6 @@ func TestMarshalObjectKeyNameLargeInt(t *testing.T) {
 		t.Errorf("Found %s, want %s", string(s), largeIntObjectKeyNameGolden)
 	}
 }
-*/
 
 func TestMarshalObjectKeyNamePackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
@@ -866,7 +860,6 @@ func TestMarshalObjectKeyTag(t *testing.T) {
 	}
 }
 
-/*
 func TestMarshalObjectKeyTagLargeInt(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}
 	pb.OptionalUint64 = proto.Uint64(oobJSInt)
@@ -881,7 +874,6 @@ func TestMarshalObjectKeyTagLargeInt(t *testing.T) {
 		t.Errorf("Found %s, want %s", string(s), largeIntObjectKeyTagGolden)
 	}
 }
-*/
 
 func TestMarshalObjectKeyTagPackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}

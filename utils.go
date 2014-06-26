@@ -87,7 +87,6 @@ func setPBFieldPtr(fv *reflect.Value, v interface{}) error {
 		case float64:
 			// legal conversion
 		default:
-			fmt.Printf("fv: %v v: %v\n", fv, v)
 			return fmt.Errorf("Cannot convert %T to %v", v, fv.Type().Elem())
 		}
 	}

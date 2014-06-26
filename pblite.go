@@ -15,9 +15,10 @@ import (
 
 type pbLite []interface{}
 
-func genTagMap(pb proto.Message) (int, map[int]int) {
+func genTagMap(pb proto.Message) (int, map[int]int, map[int]struct{}) {
 	maxTagNumber := -1
 	tagMap := make(map[int]int)
+	numEncMap := make(map[int]struct{})
 	pbType := reflect.TypeOf(pb).Elem()
 	for i := 0; i < pbType.NumField(); i++ {
 		ft := pbType.Field(i)
@@ -30,15 +31,24 @@ func genTagMap(pb proto.Message) (int, map[int]int) {
 			maxTagNumber = p.Tag
 		}
 		tagMap[p.Tag] = i
+		if strings.HasSuffix(strings.ToLower(p.OrigName), "_number") {
+			numEncMap[p.Tag] = struct{}{}
+		}
 	}
-	return maxTagNumber, tagMap
+	return maxTagNumber, tagMap, numEncMap
 }
 
-func toPBLiteValue(v interface{}, zeroIndex bool) interface{} {
+func toPBLiteValue(v interface{}, zeroIndex, numEnc bool) interface{} {
 	switch vt := v.(type) {
 	case *int64:
+		if numEnc {
+			return v
+		}
 		return strconv.FormatInt(*vt, 10)
 	case *uint64:
+		if numEnc {
+			return v
+		}
 		return strconv.FormatUint(*vt, 10)
 	case []uint8:
 		return string(vt)
@@ -57,7 +67,7 @@ func toPBLiteValue(v interface{}, zeroIndex bool) interface{} {
 func toPBLite(pb proto.Message, zeroIndex bool) *pbLite {
 	pbl := pbLite{}
 
-	maxTagNumber, tagMap := genTagMap(pb)
+	maxTagNumber, tagMap, numEncMap := genTagMap(pb)
 	pbValue := reflect.ValueOf(pb).Elem()
 
 	startIndex := 0
@@ -75,7 +85,7 @@ func toPBLite(pb proto.Message, zeroIndex bool) *pbLite {
 
 		// write stub markers for empty fields
 		if fv.IsNil() {
-			if fv.Kind() == reflect.Slice {
+			if fv.Kind() == reflect.Slice && fv.Type() != typeOfSliceUint8 {
 				pbl = append(pbl, []string{})
 			} else {
 				pbl = append(pbl, nil)
@@ -83,7 +93,8 @@ func toPBLite(pb proto.Message, zeroIndex bool) *pbLite {
 			continue
 		}
 
-		v := toPBLiteValue(fv.Interface(), zeroIndex)
+		_, numEnc := numEncMap[ti]
+		v := toPBLiteValue(fv.Interface(), zeroIndex, numEnc)
 		pbl = append(pbl, v)
 		lastNonNil = len(pbl)
 	}
@@ -126,7 +137,7 @@ func setPBLiteField(fv *reflect.Value, v interface{}, zeroIndex bool) error {
 }
 
 func fromPBLite(pbl *pbLite, pb proto.Message, zeroIndex bool) error {
-	maxTagNumber, tagMap := genTagMap(pb)
+	maxTagNumber, tagMap, _ := genTagMap(pb)
 	pbValue := reflect.ValueOf(pb).Elem()
 
 	startIndex := 1
