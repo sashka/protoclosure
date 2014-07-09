@@ -231,12 +231,14 @@ const (
 
 	pbLitePackageGolden = "[null," +
 		"1," +
-		pbLiteGolden +
+		pbLiteGolden + "," +
+		"[" + pbLiteGolden + "," + pbLiteGolden + "]" +
 		"]"
 
 	pbLitePackageZeroIndexGolden = "[" +
 		"1," +
-		pbLiteZeroIndexGolden +
+		pbLiteZeroIndexGolden + "," +
+		"[" + pbLiteZeroIndexGolden + "," + pbLiteZeroIndexGolden + "]" +
 		"]"
 
 	objectKeyNameGolden = "{" +
@@ -270,7 +272,8 @@ const (
 
 	objectKeyNamePackageGolden = "{" +
 		"\"optional_int32\":1," +
-		"\"other_all\":" + objectKeyNameGolden +
+		"\"other_all\":" + objectKeyNameGolden + "," +
+		"\"rep_other_all\":[" + objectKeyNameGolden + "," + objectKeyNameGolden + "]" +
 		"}"
 
 	objectKeyTagGolden = "{" +
@@ -303,8 +306,9 @@ const (
 		"}"
 
 	objectKeyTagPackageGolden = "{" +
-		"\"1\":1" +
-		",\"2\":" + objectKeyTagGolden +
+		"\"1\":1," +
+		"\"2\":" + objectKeyTagGolden + "," +
+		"\"3\":[" + objectKeyTagGolden + "," + objectKeyTagGolden + "]" +
 		"}"
 
 	specialCharString         = "\x04\"\\/\b\f\n\r\tÄúɠ"
@@ -593,9 +597,11 @@ func TestMarshalPBLiteLargeInt(t *testing.T) {
 func TestMarshalPBLitePackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	pb.OptionalInt32 = proto.Int32(1)
-	tpb := &test_pb.TestAllTypes{}
-	pb.OtherAll = tpb
-	populateMessage(tpb)
+	testMessage := &test_pb.TestAllTypes{}
+	populateMessage(testMessage)
+	pb.OtherAll = testMessage
+	pb.RepOtherAll = append(pb.RepOtherAll, testMessage)
+	pb.RepOtherAll = append(pb.RepOtherAll, testMessage)
 
 	s, err := MarshalPBLite(pb)
 	if err != nil {
@@ -688,9 +694,10 @@ func TestMarshalPBLiteZeroIndexPackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	pb.OptionalInt32 = proto.Int32(1)
 	testMessage := &test_pb.TestAllTypes{}
-	pb.OtherAll = testMessage
 	populateMessage(testMessage)
-
+	pb.OtherAll = testMessage
+	pb.RepOtherAll = append(pb.RepOtherAll, testMessage)
+	pb.RepOtherAll = append(pb.RepOtherAll, testMessage)
 	s, err := MarshalPBLiteZeroIndex(pb)
 	if err != nil {
 		t.Fatalf("unable to MarshalPBLiteZeroIndex: %v", err)
@@ -782,8 +789,10 @@ func TestMarshalObjectKeyNamePackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	pb.OptionalInt32 = proto.Int32(1)
 	testMessage := &test_pb.TestAllTypes{}
-	pb.OtherAll = testMessage
 	populateMessage(testMessage)
+	pb.OtherAll = testMessage
+	pb.RepOtherAll = append(pb.RepOtherAll, testMessage)
+	pb.RepOtherAll = append(pb.RepOtherAll, testMessage)
 	s, err := MarshalObjectKeyName(pb)
 	if err != nil {
 		t.Fatalf("unable to MarshalObjectKeyName: %v", err)
@@ -879,8 +888,10 @@ func TestMarshalObjectKeyTagPackage(t *testing.T) {
 	pb := &package_test_pb.TestPackageTypes{}
 	pb.OptionalInt32 = proto.Int32(1)
 	testMessage := &test_pb.TestAllTypes{}
-	pb.OtherAll = testMessage
 	populateMessage(testMessage)
+	pb.OtherAll = testMessage
+	pb.RepOtherAll = append(pb.RepOtherAll, testMessage)
+	pb.RepOtherAll = append(pb.RepOtherAll, testMessage)
 	s, err := MarshalObjectKeyTag(pb)
 	if err != nil {
 		t.Fatalf("unable to MarshalObjectKeyTag: %v", err)

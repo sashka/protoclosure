@@ -39,6 +39,17 @@ func genTagMap(pb proto.Message) (int, map[int]int, map[int]struct{}) {
 }
 
 func toPBLiteValue(v interface{}, zeroIndex, numEnc bool) interface{} {
+	val := reflect.ValueOf(v)
+	if val.Kind() == reflect.Slice &&
+		val.Type().Elem().Implements(typeOfMessage) {
+		messages := make([]interface{}, val.Len())
+		for i := 0; i < val.Len(); i++ {
+			pb := val.Index(i).Interface().(proto.Message)
+			messages[i] = toPBLite(pb, zeroIndex)
+		}
+		return messages
+	}
+
 	switch vt := v.(type) {
 	case *int64:
 		if numEnc {
@@ -129,10 +140,33 @@ func setPBLiteField(fv *reflect.Value, v interface{}, zeroIndex bool) error {
 		return setPBFieldPtr(fv, v)
 
 	case reflect.Slice:
+		if fv.Type().Elem().Kind() == reflect.Ptr &&
+			fv.Type().Elem().Implements(typeOfMessage) {
+			subMessageSlice, ok := v.([]interface{})
+			if !ok {
+				return fmt.Errorf("Cannot convert %T to %v", v, fv.Type())
+			}
+			newFV := reflect.MakeSlice(fv.Type(), 0, 0)
+			for _, sm := range subMessageSlice {
+				subMessage, ok := sm.([]interface{})
+				if !ok {
+					return fmt.Errorf("Cannot convert %T to %v", v, fv.Type())
+				}
+				pblSM := pbLite(subMessage)
+				newPB := reflect.New(fv.Type().Elem().Elem())
+				err := fromPBLite(&pblSM, newPB.Interface().(proto.Message), zeroIndex)
+				if err != nil {
+					return err
+				}
+				newFV = reflect.Append(newFV, newPB)
+			}
+			fv.Set(newFV)
+			return nil
+		}
 		return setPBFieldSlice(fv, v)
 
 	default:
-		return fmt.Errorf("Unsupported PBObject Kind: %v", fv.Kind())
+		return fmt.Errorf("Unsupported PBLite Kind: %v", fv.Kind())
 	}
 }
 
