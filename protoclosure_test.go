@@ -71,7 +71,12 @@ const (
 		"[]," +
 		"[]," +
 		"[]," +
-		"[\"foo\",\"bar\"]" +
+		"[\"foo\",\"bar\"]," +
+		"[]," +
+		"[]," +
+		"null," +
+		"[]," +
+		"[0,2]" +
 		"]"
 
 	pbLiteZeroIndexGolden = "[" +
@@ -118,7 +123,12 @@ const (
 		"[]," +
 		"[]," +
 		"[]," +
-		"[\"foo\",\"bar\"]" +
+		"[\"foo\",\"bar\"]," +
+		"[]," +
+		"[]," +
+		"null," +
+		"[]," +
+		"[0,2]" +
 		"]"
 
 	largeIntPBLiteGolden = "[null," +
@@ -261,6 +271,7 @@ const (
 		"\"optional_uint64\":\"104\"," +
 		"\"optionalgroup\":{\"a\":111}," +
 		"\"repeated_int32\":[201,202]," +
+		"\"repeated_nested_enum\":[0,2]," +
 		"\"repeated_string\":[\"foo\",\"bar\"]" +
 		"}"
 
@@ -292,6 +303,7 @@ const (
 		"\"31\":[201,202]," +
 		"\"4\":\"104\"," +
 		"\"44\":[\"foo\",\"bar\"]," +
+		"\"49\":[0,2]," +
 		"\"5\":105," +
 		"\"6\":\"106\"," +
 		"\"7\":107," +
@@ -350,6 +362,11 @@ func populateMessage(pb *test_pb.TestAllTypes) {
 
 	pb.RepeatedString = append(pb.RepeatedString, "foo")
 	pb.RepeatedString = append(pb.RepeatedString, "bar")
+
+	pb.RepeatedNestedEnum = append(pb.RepeatedNestedEnum,
+		test_pb.TestAllTypes_FOO)
+	pb.RepeatedNestedEnum = append(pb.RepeatedNestedEnum,
+		test_pb.TestAllTypes_BAR)
 }
 
 func validateMessage(t *testing.T, pb *test_pb.TestAllTypes) {
@@ -497,8 +514,8 @@ func validateMessage(t *testing.T, pb *test_pb.TestAllTypes) {
 			len(pb.RepeatedNestedMessage))
 		t.FailNow()
 	}
-	if len(pb.RepeatedNestedEnum) != 0 {
-		t.Errorf("Found len %d, want 0 (RepeatedNestedEnum)",
+	if len(pb.RepeatedNestedEnum) != 2 {
+		t.Errorf("Found len %d, want 2 (RepeatedNestedEnum)",
 			len(pb.RepeatedNestedEnum))
 		t.FailNow()
 	}
@@ -563,6 +580,12 @@ func validateMessage(t *testing.T, pb *test_pb.TestAllTypes) {
 	}
 	if pb.RepeatedInt32[1] != 202 {
 		t.Errorf("Found %d, want 202 (RepeatedInt32[1])", pb.RepeatedInt32[1])
+	}
+	if pb.RepeatedNestedEnum[0] != test_pb.TestAllTypes_FOO {
+		t.Errorf("Found %d, want 201 (RepeatedInt32[0])", pb.RepeatedNestedEnum[0])
+	}
+	if pb.RepeatedNestedEnum[1] != test_pb.TestAllTypes_BAR {
+		t.Errorf("Found %d, want 202 (RepeatedInt32[1])", pb.RepeatedNestedEnum[1])
 	}
 }
 

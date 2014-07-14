@@ -104,6 +104,25 @@ func setPBFieldSlice(fv *reflect.Value, v interface{}) error {
 
 	newFV := reflect.MakeSlice(fv.Type(), 0, 0)
 
+	// Special case repeated enums
+	if fv.Type().Elem().Kind() == reflect.Int32 {
+		vt, ok := v.([]interface{})
+		if !ok {
+			return fmt.Errorf("Cannot convert %T to []enum/int32", vt)
+		}
+
+		// legal conversion
+		vint32, err := toSliceInt32(vt)
+		if err != nil {
+			return err
+		}
+		for _, item := range vint32 {
+			newFV = reflect.Append(newFV, reflect.ValueOf(item).Convert(fv.Type().Elem()))
+		}
+		fv.Set(newFV)
+		return nil
+	}
+
 	var err error
 	switch fv.Type() {
 	case typeOfSliceUint8:
