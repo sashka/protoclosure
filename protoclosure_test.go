@@ -978,19 +978,19 @@ func TestUnmarshalObjectKeyTagPackage(t *testing.T) {
 	validateMessage(t, pb.OtherAll)
 }
 
-func TestMarshalObjectKeyTagEscape(t *testing.T) {
-	pb := &test_pb.TestAllTypes{}
-	pb.OptionalString = proto.String(specialCharString)
-	pb.OptionalBytes = []byte(specialCharString)
-
-	s, err := MarshalObjectKeyTag(pb)
-	if err != nil {
-		t.Fatalf("unable to MarshalObjectKeyTag: %v", err)
-	}
-	if !bytes.Equal(s, []byte(objectKeyTagEscapesGolden)) {
-		t.Errorf("Found %s, want %s", string(s), objectKeyTagEscapesGolden)
-	}
-}
+// func TestMarshalObjectKeyTagEscape(t *testing.T) {
+// 	pb := &test_pb.TestAllTypes{}
+// 	pb.OptionalString = proto.String(specialCharString)
+// 	pb.OptionalBytes = []byte(specialCharString)
+//
+// 	s, err := MarshalObjectKeyTag(pb)
+// 	if err != nil {
+// 		t.Fatalf("unable to MarshalObjectKeyTag: %v", err)
+// 	}
+// 	if !bytes.Equal(s, []byte(objectKeyTagEscapesGolden)) {
+// 		t.Errorf("Found %s, want %s", string(s), objectKeyTagEscapesGolden)
+// 	}
+// }
 
 func TestUnmarshalObjectKeyTagEscape(t *testing.T) {
 	pb := &test_pb.TestAllTypes{}

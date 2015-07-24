@@ -6,3 +6,6 @@ lint:
 	ls -1d *.go | xargs -I {} go fmt {}
 	ls -1d *.go | xargs -I {} go vet {}
 	! golint *.go | grep .
+
+test:
+	go test -v -x
