@@ -9,7 +9,7 @@ package protoclosure
 import (
 	"encoding/json"
 
-	"code.google.com/p/goprotobuf/proto"
+	"github.com/golang/protobuf/proto"
 )
 
 // MarshalPBLite takes the protocol buffer and encodes it into the PBLite JSON

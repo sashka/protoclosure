@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"strconv"
 
-	"code.google.com/p/goprotobuf/proto"
+	"github.com/golang/protobuf/proto"
 )
 
 var (

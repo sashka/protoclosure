@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"testing"
 
-	"code.google.com/p/goprotobuf/proto"
+	"github.com/golang/protobuf/proto"
 
 	package_test_pb "gopkg.in/samegoal/protoclosure.v0/package_test.pb"
 	test_pb "gopkg.in/samegoal/protoclosure.v0/test.pb"
