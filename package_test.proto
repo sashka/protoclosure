@@ -7,7 +7,7 @@
 
 syntax = "proto2";
 
-import "gopkg.in/samegoal/protoclosure.v0/test.proto";
+import "test.proto";
 
 package someprotopackage;
 

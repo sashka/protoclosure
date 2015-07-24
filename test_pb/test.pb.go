@@ -11,7 +11,7 @@ It is generated from these files:
 It has these top-level messages:
 	TestAllTypes
 */
-package test
+package test_pb
 
 import proto "github.com/golang/protobuf/proto"
 import math "math"

@@ -10,8 +10,8 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	package_test_pb "gopkg.in/samegoal/protoclosure.v0/package_test.pb"
-	test_pb "gopkg.in/samegoal/protoclosure.v0/test.pb"
+	package_test_pb "protoclosure/package_test_pb"
+	test_pb "protoclosure/test_pb"
 )
 
 // JS limits integers stored in Numbers (not strings) to the IEEE-754 floating

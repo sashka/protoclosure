@@ -11,11 +11,11 @@ It is generated from these files:
 It has these top-level messages:
 	TestPackageTypes
 */
-package someprotopackage
+package package_test_pb
 
 import proto "github.com/golang/protobuf/proto"
 import math "math"
-import test "gopkg.in/samegoal/protoclosure.v0/test.pb"
+import test "protoclosure/test_pb"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
